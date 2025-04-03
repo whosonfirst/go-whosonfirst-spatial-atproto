@@ -127,7 +127,7 @@ San Francisco
 
 #### Notes
 
-Should this be a `GET` request? Probably not. Should we really be passing around URL-escaped [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) geometries? Also, probably not. That said, I haven't read the ATProto docs enough to what sort of restrictions and/or expectations there are around input parameters so for the sake of brevity (sort of) we'll just be "inelegant" about things.
+Should this be a `GET` request? Probably not. Should we really be passing around URL-escaped [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) geometries? Also, probably not. That said, I haven't read the ATProto docs enough to know what sort of restrictions and/or expectations there are around input parameters so for the sake of brevity (sort of) we'll just be "inelegant" about things.
 
 Should it be possible to filter (or exclude) results by placetype? Probably.
 
