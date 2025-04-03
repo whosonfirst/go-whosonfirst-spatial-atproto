@@ -30,7 +30,7 @@ $> go mod vendor
 $> modvendor -copy="**/*.a **/*.h" -v
 ```
 
-This package includes handy `modvendor` Makefile target for automating some of that. For example:
+This package includes handy `modvendor` Makefile target for automating some of that.
 
 ## Things this package does
 
