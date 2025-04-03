@@ -32,6 +32,12 @@ $> modvendor -copy="**/*.a **/*.h" -v
 
 This package includes handy `modvendor` Makefile target for automating some of that. For example:
 
+## Things this package does
+
+* Point-in-polygon spatial queries.
+* Intersects (with geometry) spatial queries.
+* Point-in-polygon from ZXY map tile spatial queries (incomplete).
+
 ## Things this package doesn't do yet
 
 * Nearby (radial) queries
