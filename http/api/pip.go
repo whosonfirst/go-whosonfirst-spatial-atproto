@@ -5,14 +5,14 @@ import (
 	"log/slog"
 	"net/http"
 
-	// "github.com/aaronland/go-http-sanitize"
-	// "github.com/whosonfirst/go-whosonfirst-spatial"
+	"github.com/aaronland/go-http-sanitize"
+	"github.com/paulmach/orb"
+	"github.com/paulmach/orb/geojson"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
 )
 
-type PointInPolygonHandlerOptions struct {
-}
+type PointInPolygonHandlerOptions struct{}
 
 func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPolygonHandlerOptions) (http.Handler, error) {
 
@@ -25,24 +25,41 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 		pip_fn, err := query.NewSpatialFunction(ctx, "pip://")
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusBadRequest)
+			logger.Error("Failed to construct spatial fuction (pip://)", "error", err)
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
-		// START OF read from params...
-		
-		var pip_query *query.SpatialQuery
-
-		dec := json.NewDecoder(req.Body)
-		err = dec.Decode(&pip_query)
+		lat, err := sanitize.GetFloat64(req, P_LATITUDE)
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusBadRequest)
+			logger.Error("Failed to derive latitude", "error", err)
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
-		// END OF read from params...
-		
+		lon, err := sanitize.GetFloat64(req, P_LONGITUDE)
+
+		if err != nil {
+			logger.Error("Failed to derive longitude", "error", err)
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			return
+		}
+
+		// START OF put me in a function...
+
+		pt := orb.Point([2]float64{lon, lat})
+		geom := geojson.NewGeometry(pt)
+
+		pip_query := &query.SpatialQuery{
+			Geometry: geom,
+		}
+
+		// END OF put me in a function...
+
+		// Something something something this information is not (?) in the parquet files...
+		// pip_query.IsCurrent = []int64{1}
+
 		pip_rsp, err := query.ExecuteQuery(ctx, app.SpatialDatabase, pip_fn, pip_query)
 
 		if err != nil {
@@ -50,41 +67,9 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		
-		/*
-		if len(pip_query.Properties) > 0 {
-
-			props_opts := &spatial.PropertiesResponseOptions{
-				Reader:       app.PropertiesReader,
-				Keys:         pip_query.Properties,
-				SourcePrefix: "properties",
-			}
-
-			app.Monitor.Signal(ctx, timings.SinceStart, timingsPIPProperties)
-
-			props_rsp, err := spatial.PropertiesResponseResultsWithStandardPlacesResults(ctx, props_opts, pip_rsp)
-
-			app.Monitor.Signal(ctx, timings.SinceStop, timingsPIPProperties)
-
-			if err != nil {
-				http.Error(rsp, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			enc := json.NewEncoder(rsp)
-			err = enc.Encode(props_rsp)
-
-			if err != nil {
-				http.Error(rsp, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			return
-		}
-		*/
 
 		// Generate ATGeo here...
-		
+
 		enc := json.NewEncoder(rsp)
 		err = enc.Encode(pip_rsp)
 

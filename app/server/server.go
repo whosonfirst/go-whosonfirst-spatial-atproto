@@ -36,13 +36,18 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 
 func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
+	if opts.Verbose {
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+		slog.Debug("Verbose logging enabled")
+	}
+
 	logger := slog.Default()
 
 	spatial_opts := &app.SpatialApplicationOptions{
 		SpatialDatabaseURI:     opts.SpatialDatabaseURI,
-		PropertiesReaderURI:    opts.PropertiesReaderURI,
-		EnableCustomPlacetypes: opts.EnableCustomPlacetypes,
-		CustomPlacetypes:       opts.CustomPlacetypes,
+		// PropertiesReaderURI:    opts.PropertiesReaderURI,
+		// EnableCustomPlacetypes: opts.EnableCustomPlacetypes,
+		// CustomPlacetypes:       opts.CustomPlacetypes,
 	}
 
 	spatial_app, err := app.NewSpatialApplication(ctx, spatial_opts)
@@ -53,8 +58,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	mux := gohttp.NewServeMux()
 
-
-	// point-in-polygon handlers
+	// point-in-polygon handler
 
 	api_pip_opts := &api.PointInPolygonHandlerOptions{}
 
@@ -64,8 +68,22 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		return fmt.Errorf("failed to create point-in-polygon handler because %s", err)
 	}
 
-	mux.Handle("/xrpc/org.whosonfirst.PointInPolygon", api_pip_handler)
+	logger.Debug("Enable point in polygon handler", "endpoint", api.XRPC_POINT_IN_POLYGON)
+	mux.Handle(api.XRPC_POINT_IN_POLYGON, api_pip_handler)
 
+	// point-in-polygon from tile handler
+
+	api_piptile_opts := &api.PointInPolygonTileHandlerOptions{}
+
+	api_piptile_handler, err := api.PointInPolygonTileHandler(spatial_app, api_piptile_opts)
+
+	if err != nil {
+		return fmt.Errorf("failed to create point-in-polygon from tile handler because %s", err)
+	}
+
+	logger.Debug("Enable point in polygon from tile handler", "endpoint", api.XRPC_POINT_IN_POLYGON_TILE)
+	mux.Handle(api.XRPC_POINT_IN_POLYGON_TILE, api_piptile_handler)
+	
 	// intersects
 
 	api_intersects_opts := &api.IntersectsHandlerOptions{}
@@ -76,7 +94,8 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		return fmt.Errorf("failed to create point-in-polygon handler because %s", err)
 	}
 
-	mux.Handle("/xrpc/org.whosonfirst.Intersects", api_intersects_handler)
+	logger.Debug("Enable point in polygon handler", "endpoint", api.XRPC_INTERSECTS)
+	mux.Handle(api.XRPC_INTERSECTS, api_intersects_handler)
 
 	s, err := server.NewServer(ctx, opts.ServerURI)
 

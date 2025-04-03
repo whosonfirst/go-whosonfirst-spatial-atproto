@@ -5,7 +5,9 @@ import (
 	"log"
 
 	_ "github.com/whosonfirst/go-reader-cachereader"
-	"github.com/whosonfirst/go-whosonfirst-spatial-www/app/server"
+	_ "github.com/whosonfirst/go-whosonfirst-spatial-duckdb"
+
+	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/app/server"
 )
 
 func main() {

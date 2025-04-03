@@ -1,0 +1,6 @@
+*~
+bin
+work
+go.work*
+*.a
+*.h

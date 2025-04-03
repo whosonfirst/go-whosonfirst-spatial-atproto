@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
-	
-	// "github.com/aaronland/go-http-sanitize"
-	// "github.com/whosonfirst/go-whosonfirst-spatial"
+
+	"github.com/aaronland/go-http-sanitize"
+	"github.com/paulmach/orb/encoding/wkt"
+	"github.com/paulmach/orb/geojson"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
 )
 
-type IntersectsHandlerOptions struct {
-}
+type IntersectsHandlerOptions struct{}
 
 func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHandlerOptions) (http.Handler, error) {
 
@@ -22,32 +22,44 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		ctx := req.Context()
 
-		if req.Method != "POST" {
-			http.Error(rsp, "Unsupported method", http.StatusMethodNotAllowed)
-			return
-		}
-
 		intersects_fn, err := query.NewSpatialFunction(ctx, "intersects://")
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusBadRequest)
+			logger.Error("Failed to construct spatial fuction (intersects://)", "error", err)
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
-		// START OF ...
-		
-		var intersects_query *query.SpatialQuery
+		// START OF read from params...
 
-		dec := json.NewDecoder(req.Body)
-		err = dec.Decode(&intersects_query)
+		str_wkt, err := sanitize.GetString(req, P_GEOMETRY)
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusBadRequest)
+			logger.Error("Failed to derive geometry", "error", err)
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
-		// END OF ...
-		
+		// START OF put me in a function...
+
+		orb_geom, err := wkt.Unmarshal(str_wkt)
+
+		if err != nil {
+			logger.Error("Failed to unmarshal geometry", "error", err)
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			return
+		}
+
+		geom := geojson.NewGeometry(orb_geom)
+
+		intersects_query := &query.SpatialQuery{
+			Geometry: geom,
+		}
+
+		// END OF put me in a function...
+
+		// intersects_query.IsCurrent = []int64{1}
+
 		intersects_rsp, err := query.ExecuteQuery(ctx, app.SpatialDatabase, intersects_fn, intersects_query)
 
 		if err != nil {
@@ -55,39 +67,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		
-		/*
-		if len(intersects_query.Properties) > 0 {
 
-			props_opts := &spatial.PropertiesResponseOptions{
-				Reader:       app.PropertiesReader,
-				Keys:         intersects_query.Properties,
-				SourcePrefix: "properties",
-			}
-
-			app.Monitor.Signal(ctx, timings.SinceStart, timingsIntersectsProperties)
-
-			props_rsp, err := spatial.PropertiesResponseResultsWithStandardPlacesResults(ctx, props_opts, intersects_rsp)
-
-			app.Monitor.Signal(ctx, timings.SinceStop, timingsIntersectsProperties)
-
-			if err != nil {
-				http.Error(rsp, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			enc := json.NewEncoder(rsp)
-			err = enc.Encode(props_rsp)
-
-			if err != nil {
-				http.Error(rsp, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			return
-		}
-		*/
-		
 		enc := json.NewEncoder(rsp)
 		err = enc.Encode(intersects_rsp)
 
