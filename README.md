@@ -58,7 +58,7 @@ The easiest way to get started is to run the handy `debug` Makfile target:
 $> make debug
 go run -mod vendor cmd/server/main.go \
 		-verbose \
-		-spatial-database-uri 'duckdb://?uri=/Users/asc/whosonfirst/go-whosonfirst-spatial-atproto/fixtures/sf_county.parquet'
+		-spatial-database-uri 'duckdb://?uri=/usr/local/whosonfirst/go-whosonfirst-spatial-atproto/fixtures/sf_county.parquet'
 		
 2025/04/03 08:49:43 DEBUG Verbose logging enabled
 2025/04/03 08:49:43 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.PointInPolygon
