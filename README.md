@@ -8,19 +8,19 @@ It is working code to try and identify the outlines for a series of open questio
 
 ## Building
 
-#### Notes
+At minimum you will need to install the [Go](https://go.dev/dl) programming language and, ideally, the `make` command line tool to run these tools. If you don't have `make` installed you can copy-paste all the examples, below, in to a terminal.
 
 This code is derived from the [whosonfirst/go-whosonfirst-spatial](https://github.com/whosonfirst/?q=go-whosonfirst-spatial&type=all&language=&sort=) packages which are organized in such a way that interface and service definitions are separate from any given database implementation.
 
 For the sake of brevity this package is a "smushing up" of the [whosonfirst/go-whosonfirst-spatial-www](https://github.com/whosonfirst/go-whosonfirst-spatial-www) and [whosonfirst/go-whosonfirst-spatial-duckdb](https://github.com/whosonfirst/go-whosonfirst-spatial-duckdb) packages. Assuming this code goes anywhere beyond the experimental phase it will likely be broken up in discrete pieces. For now it's just one big messy party.
 
-#### Data sources
+### Data sources
 
 As mentioned this package defaults to using [DuckDB](https://duckdb.org/) as its database engine. Other databases are supported but they are not enabled by default. Poke me if you want to know how to use a different database (SQLite, PMTiles, etc.)
 
 There is a default DuckDB GeoParquet file for [San Francisco county](https://spelunker.whosonfirst.org/id/102087579) and all its descendants in the [fixture](fixtures) directory. (This file is bundled using Git LFS so depending on your setup you may need to do additional `git clone whatever` commands.) This file was derived from the [Geocode Earth GeoParquet download](https://geocode.earth/data/whosonfirst/combined/) so that will work too if you feel like downloading a 6GB parquet file.
 
-#### DuckDB
+### DuckDB
 
 Under the hood this file uses the [marcboeker/go-duckdb](https://github.com/marcboeker/go-duckdb) package which bundles all of the various `libduck.*` files. Because of their size those files are explicitly excluded from the `vendor` directory in this package. Per the [vendoring documentation](https://github.com/marcboeker/go-duckdb?tab=readme-ov-file#vendoring) in the `marcboeker/go-duckdb` package the easiest thing to do is this:
 
