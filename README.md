@@ -32,6 +32,12 @@ $> modvendor -copy="**/*.a **/*.h" -v
 
 This package includes handy `modvendor` Makefile target for automating some of that. For example:
 
+## Things this package doesn't do yet
+
+* Nearby (radial) queries
+* Venues. See [whosonfirst/go-whosonfirst-external](https://github.com/whosonfirst/go-whosonfirst-external) and [whosonfirst/whosonfirst-external-duckdb](https://github.com/whosonfirst/whosonfirst-external-duckdb) for possible approaches.
+* Geocoding. See [pelias/placeholder](https://github.com/pelias/placeholder/) and [sfomuseum/go-placeholder-client](https://github.com/sfomuseum/go-placeholder-client) for possible approaches.
+
 ## Example
 
 The easiest way to get started is to run the handy `debug` Makfile target:
