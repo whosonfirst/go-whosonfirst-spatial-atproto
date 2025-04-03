@@ -48,6 +48,8 @@ This package includes handy `modvendor` Makefile target for automating some of t
 * Venues. See [whosonfirst/go-whosonfirst-external](https://github.com/whosonfirst/go-whosonfirst-external) and [whosonfirst/whosonfirst-external-duckdb](https://github.com/whosonfirst/whosonfirst-external-duckdb) for possible approaches.
 * Geocoding. See [pelias/placeholder](https://github.com/pelias/placeholder/) and [sfomuseum/go-placeholder-client](https://github.com/sfomuseum/go-placeholder-client) for possible approaches.
 
+It probably doesn't return things in the correct ATProto formats. Any pointers suitable for someone-who-is-already-juggling-too-many-things are welcome.
+
 ## Example
 
 The easiest way to get started is to run the handy `debug` Makfile target:
