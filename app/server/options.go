@@ -9,12 +9,12 @@ import (
 )
 
 type RunOptions struct {
-	ServerURI              string
-	SpatialDatabaseURI     string
+	ServerURI          string
+	SpatialDatabaseURI string
 	// PropertiesReaderURI    string
 	// EnableCustomPlacetypes bool
 	// CustomPlacetypes       string
-	Verbose                bool
+	Verbose bool
 }
 
 func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, error) {
@@ -28,12 +28,12 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	}
 
 	opts := &RunOptions{
-		ServerURI:              server_uri,
-		SpatialDatabaseURI:     spatial_database_uri,
+		ServerURI:          server_uri,
+		SpatialDatabaseURI: spatial_database_uri,
 		// PropertiesReaderURI:    properties_reader_uri,
 		// EnableCustomPlacetypes: enable_custom_placetypes,
 		// CustomPlacetypes:       custom_placetypes,
-		Verbose:                verbose,
+		Verbose: verbose,
 	}
 
 	return opts, nil

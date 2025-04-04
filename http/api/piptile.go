@@ -26,7 +26,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to construct spatial fuction (intersects://)", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -34,7 +34,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to derive z", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -42,7 +42,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to derive x", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -50,7 +50,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to derive y", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -77,17 +77,19 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to execute point in polygon query", "error", err)
-			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
 		// Generate ATGeo here...
 
+		rsp.Header().Set("Content-type", "application/json")
+
 		enc := json.NewEncoder(rsp)
 		err = enc.Encode(intersects_rsp)
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusInternalServerError)
+			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

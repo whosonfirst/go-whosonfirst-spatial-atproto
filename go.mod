@@ -7,11 +7,10 @@ require (
 	github.com/aaronland/go-http-server v1.5.0
 	github.com/paulmach/orb v0.11.1
 	github.com/sfomuseum/go-flags v0.10.0
-	github.com/whosonfirst/go-reader v1.0.2
 	github.com/whosonfirst/go-reader-cachereader v1.1.1
-	github.com/whosonfirst/go-whosonfirst-spatial v0.13.1
-	github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.1.1
-	github.com/whosonfirst/go-whosonfirst-uri v1.3.0
+	github.com/whosonfirst/go-whosonfirst-reader v1.0.2
+	github.com/whosonfirst/go-whosonfirst-spatial v0.13.2
+	github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.1.2
 )
 
 require (
@@ -53,6 +52,7 @@ require (
 	github.com/tidwall/sjson v1.2.5 // indirect
 	github.com/whosonfirst/go-cache v0.5.3 // indirect
 	github.com/whosonfirst/go-ioutil v1.0.2 // indirect
+	github.com/whosonfirst/go-reader v1.0.2 // indirect
 	github.com/whosonfirst/go-sanitize v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-crawl v0.2.2 // indirect
 	github.com/whosonfirst/go-whosonfirst-feature v0.0.28 // indirect
@@ -62,6 +62,7 @@ require (
 	github.com/whosonfirst/go-whosonfirst-placetypes v0.7.3 // indirect
 	github.com/whosonfirst/go-whosonfirst-sources v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.7 // indirect
+	github.com/whosonfirst/go-whosonfirst-uri v1.3.0 // indirect
 	github.com/whosonfirst/go-writer/v3 v3.1.1 // indirect
 	github.com/whosonfirst/walk v0.0.2 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect

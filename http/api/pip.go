@@ -26,7 +26,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to construct spatial fuction (pip://)", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -34,7 +34,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to derive latitude", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -42,7 +42,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to derive longitude", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -64,17 +64,19 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to execute point in polygon query", "error", err)
-			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
 		// Generate ATGeo here...
 
+		rsp.Header().Set("Content-type", "application/json")
+
 		enc := json.NewEncoder(rsp)
 		err = enc.Encode(pip_rsp)
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusInternalServerError)
+			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

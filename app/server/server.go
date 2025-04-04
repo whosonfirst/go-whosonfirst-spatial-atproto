@@ -44,7 +44,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	logger := slog.Default()
 
 	spatial_opts := &app.SpatialApplicationOptions{
-		SpatialDatabaseURI:     opts.SpatialDatabaseURI,
+		SpatialDatabaseURI: opts.SpatialDatabaseURI,
 		// PropertiesReaderURI:    opts.PropertiesReaderURI,
 		// EnableCustomPlacetypes: opts.EnableCustomPlacetypes,
 		// CustomPlacetypes:       opts.CustomPlacetypes,
@@ -83,7 +83,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	logger.Debug("Enable point in polygon from tile handler", "endpoint", api.XRPC_POINT_IN_POLYGON_TILE)
 	mux.Handle(api.XRPC_POINT_IN_POLYGON_TILE, api_piptile_handler)
-	
+
 	// intersects
 
 	api_intersects_opts := &api.IntersectsHandlerOptions{}
@@ -96,6 +96,19 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	logger.Debug("Enable point in polygon handler", "endpoint", api.XRPC_INTERSECTS)
 	mux.Handle(api.XRPC_INTERSECTS, api_intersects_handler)
+
+	// record handler
+
+	api_record_opts := &api.GetRecordHandlerOptions{}
+
+	api_record_handler, err := api.GetRecordHandler(spatial_app, api_record_opts)
+
+	if err != nil {
+		return fmt.Errorf("failed to create get record handler because %s", err)
+	}
+
+	logger.Debug("Enable get record handler", "endpoint", api.XRPC_RECORD)
+	mux.Handle(api.XRPC_RECORD, api_record_handler)
 
 	s, err := server.NewServer(ctx, opts.ServerURI)
 

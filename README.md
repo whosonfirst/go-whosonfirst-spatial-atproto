@@ -41,6 +41,7 @@ This package includes handy `modvendor` Makefile target for automating some of t
 * Point-in-polygon spatial queries.
 * Intersects (with geometry) spatial queries.
 * Point-in-polygon from ZXY map tile spatial queries (incomplete).
+* Basic "get record" lookups.
 
 ## Things this package doesn't do yet
 
@@ -59,12 +60,42 @@ $> make debug
 go run -mod vendor cmd/server/main.go \
 		-verbose \
 		-spatial-database-uri 'duckdb://?uri=/Users/asc/whosonfirst/go-whosonfirst-spatial-atproto/fixtures/sf_county.parquet'
-		
-2025/04/03 08:49:43 DEBUG Verbose logging enabled
-2025/04/03 08:49:43 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.PointInPolygon
-2025/04/03 08:49:43 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.Intersects
-2025/04/03 08:49:43 INFO Listening for requests address=http://localhost:8080
+
+2025/04/03 18:14:09 DEBUG Verbose logging enabled
+2025/04/03 18:14:09 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.PointInPolygon
+2025/04/03 18:14:09 DEBUG Enable point in polygon from tile handler endpoint=/xrpc/org.whosonfirst.PointInPolygonWithTile
+2025/04/03 18:14:09 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.Intersects
+2025/04/03 18:14:09 DEBUG Enable get record handler endpoint=/xrpc/org.whosonfirst.getRecord
+2025/04/03 18:14:09 INFO Listening for requests address=http://localhost:8080
 ```
+
+### Get record
+
+Return a place by its unique ID.
+
+```
+$> curl 'http://localhost:8080/xrpc/org.whosonfirst.getRecord?id=102112179'
+{
+  "id": 102112179,
+  "type": "Feature",
+  "properties": {
+    "geom:latitude": 37.748114,
+    "geom:longitude": -122.420856,
+    "wof:country": "US",
+    "wof:id": 102112179,
+    "wof:lastmodified": 1566604800,
+    "wof:parent_id": 85922583,
+    "wof:placetype": "neighbourhood",
+    "wof:repo": "whosonfirst-data-admin-us"
+  },
+  "bbox": null,
+  "geometry": {"coordinates":[[[-122.423623,37.739801],[-122.418225,37.748212],[-122.418106,37.748534],[-122.418419,37.751724],[-122.422614,37.7491],[-122.42221,37.745201],[-122.423305,37.742291],[-122.423885,37.74079],[-122.424104,37.739865],[-122.423623,37.739801]]],"type":"Polygon"}
+}
+```
+
+#### Notes
+
+As written this endpoint returns the raw GeoJSON record returned by the whosonfirst/go-whosonfirst-spatial-duckdb](https://github.com/whosonfirst/go-whosonfirst-spatial-duckdb/blob/main/database_reader.go#L35) package. The use of GeoJSON in these responses is not to advocate for the format in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 ### Point in polygon
 

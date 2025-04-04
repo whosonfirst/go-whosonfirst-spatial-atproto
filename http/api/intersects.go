@@ -26,7 +26,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to construct spatial fuction (intersects://)", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -36,7 +36,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to derive geometry", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -46,7 +46,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to unmarshal geometry", "error", err)
-			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -64,15 +64,17 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to execute intersects query", "error", err)
-			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
+
+		rsp.Header().Set("Content-type", "application/json")
 
 		enc := json.NewEncoder(rsp)
 		err = enc.Encode(intersects_rsp)
 
 		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusInternalServerError)
+			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

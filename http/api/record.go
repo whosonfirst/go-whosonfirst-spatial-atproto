@@ -1,60 +1,47 @@
 package api
 
-// TBD: make this part of whosonfirst/go-reader package...
-
 import (
-	"fmt"
-	"io"
+	// "encoding/json"
+	"log/slog"
 	"net/http"
 
-	"github.com/whosonfirst/go-reader"
-	"github.com/whosonfirst/go-whosonfirst-uri"
+	"github.com/aaronland/go-http-sanitize"
+	"github.com/whosonfirst/go-whosonfirst-reader"
+	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 )
 
-func NewDataHandler(r reader.Reader) (http.Handler, error) {
+type GetRecordHandlerOptions struct{}
+
+func GetRecordHandler(app *spatial_app.SpatialApplication, opts *GetRecordHandlerOptions) (http.Handler, error) {
 
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
-		path := req.URL.Path
-
-		id, uri_args, err := uri.ParseURI(path)
-
-		if err != nil {
-			e := fmt.Errorf("Failed to parse %s, %w", path, err)
-			http.Error(rsp, e.Error(), http.StatusBadRequest)
-			return
-		}
-
-		rel_path, err := uri.Id2RelPath(id, uri_args)
-
-		if err != nil {
-			e := fmt.Errorf("Failed to derive path for %d, %w", id, err)
-			http.Error(rsp, e.Error(), http.StatusBadRequest)
-			return
-		}
-
+		logger := slog.Default()
 		ctx := req.Context()
-		fh, err := r.Read(ctx, rel_path)
+
+		id, err := sanitize.GetInt64(req, P_RECORD_ID)
 
 		if err != nil {
-			e := fmt.Errorf("Failed to load %s, %w", rel_path, err)
-			http.Error(rsp, e.Error(), http.StatusBadRequest)
+			logger.Error("Failed to derive record ID", "error", err)
+			xrpcError(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
-		rsp.Header().Set("Content-Type", "application/json")
-
-		_, err = io.Copy(rsp, fh)
+		body, err := reader.LoadBytes(ctx, app.SpatialDatabase, id)
 
 		if err != nil {
-			e := fmt.Errorf("Failed to copy %s, %w", rel_path, err)
-			http.Error(rsp, e.Error(), http.StatusBadRequest)
+			logger.Error("Failed to load record", "id", id, "error", err)
+			xrpcError(rsp, "Not found", http.StatusNotFound)
 			return
 		}
 
+		// Generate ATGeo here...
+
+		rsp.Header().Set("Content-type", "application/json")
+		rsp.Write(body)
 		return
 	}
 
-	h := http.HandlerFunc(fn)
-	return h, nil
+	record_handler := http.HandlerFunc(fn)
+	return record_handler, nil
 }

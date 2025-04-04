@@ -86,12 +86,14 @@ func (db *DuckDBSpatialDatabase) Read(ctx context.Context, str_uri string) (io.R
 		"wof:id":           id,
 		"wof:parent_id":    parent_id,
 		"wof:placetype":    placetype,
-		"wof:country":      "wof:country",
+		"wof:country":      country,
 		"wof:repo":         repo,
 		"geom:latitude":    lat,
 		"geom:longitude":   lon,
 		"wof:lastmodified": lastmod,
 	}
+
+	f.ID = id
 
 	enc_f, err := f.MarshalJSON()
 
