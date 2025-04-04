@@ -95,7 +95,7 @@ $> curl 'http://localhost:8080/xrpc/org.whosonfirst.getRecord?id=102112179'
 
 #### Notes
 
-As written this endpoint returns the raw GeoJSON record returned by the whosonfirst/go-whosonfirst-spatial-duckdb](https://github.com/whosonfirst/go-whosonfirst-spatial-duckdb/blob/main/database_reader.go#L35) package. The use of GeoJSON in these responses is not to advocate for the format in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
+As written this endpoint returns the raw GeoJSON record returned by the [whosonfirst/go-whosonfirst-spatial-duckdb](https://github.com/whosonfirst/go-whosonfirst-spatial-duckdb/blob/main/database_reader.go#L35) package. The use of GeoJSON in these responses is not to advocate for the format in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 ### Point in polygon
 
