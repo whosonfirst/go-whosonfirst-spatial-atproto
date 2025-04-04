@@ -18,6 +18,10 @@ func xrpcError(rsp http.ResponseWriter, message string, code int) {
 
 	rsp.Header().Set("Content-type", "application/json")
 
+	// Unclear if I am supposed to assign an HTTP error here
+	// or if they've gone full-Flickr and are returning
+	// errors in HTTP 200 OK responses...
+	
 	enc := json.NewEncoder(rsp)
 	err := enc.Encode(xrpc_err)
 
