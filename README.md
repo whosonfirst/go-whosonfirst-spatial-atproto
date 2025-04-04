@@ -18,7 +18,7 @@ For the sake of brevity this package is a "smushing up" of the [whosonfirst/go-w
 
 As mentioned this package defaults to using [DuckDB](https://duckdb.org/) as its database engine. Other databases are supported but they are not enabled by default. Poke me if you want to know how to use a different database (SQLite, PMTiles, etc.)
 
-There is a default DuckDB GeoParquet file for [San Francisco county](https://spelunker.whosonfirst.org/id/102087579) and all its descendants in the [fixture](fixtures) directory. (This file is bundled using Git LFS so depending on your setup you may need to do additional `git clone whatever` commands.)
+There is a default DuckDB GeoParquet file for [San Francisco county](https://spelunker.whosonfirst.org/id/102087579) and all its descendants in the [fixtures](fixtures) directory. This file is bundled using Git LFS so depending on your setup you may need to do additional `git clone whatever` commands.
 
 This file was derived from the [Geocode Earth GeoParquet download](https://geocode.earth/data/whosonfirst/combined/) so that will work too if you feel like downloading a 6GB parquet file.
 
@@ -116,7 +116,7 @@ Should it be possible to filter (or exclude) results by placetype? Probably.
 
 Under the hood this uses the [whosonfirst/go-whosonfirst-spatial/query.SpatialQuery](https://github.com/whosonfirst/go-whosonfirst-spatial/blob/main/query/query.go#L13) definition which defines additional query filters not exposed here. These include placetype, "current"-ness, dates, etc. It may be desirable to expose similar filtering criteria in ATProto/Geo queries.
 
-As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to do define a minimum set of properties to be able to perform three functions:
+As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to define a minimum set of properties to be able to perform three functions:
 
 1. Provide a minimum amount of data for filtering: placetype, is_current, etc.
 2. Display a map with a point (centroid) and/or bounding box and a label.
@@ -158,13 +158,13 @@ San Francisco
 
 #### Notes
 
-Should this be a `GET` request? Probably not. Should we really be passing around URL-escape [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) geometries? Also, probably not. That said, I haven't read the ATProto docs enough to what sort of restrictions and/or expectations there are around input parameters so for the sake of brevity (sort of) we'll just be "inelegant" about things.
+Should this be a `GET` request? Probably not. Should we really be passing around URL-escaped [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) geometries? Also, probably not. That said, I haven't read the ATProto docs enough to know what sort of restrictions and/or expectations there are around input parameters so for the sake of brevity (sort of) we'll just be "inelegant" about things.
 
 Should it be possible to filter (or exclude) results by placetype? Probably.
 
 Under the hood this uses the [whosonfirst/go-whosonfirst-spatial/query.SpatialQuery](https://github.com/whosonfirst/go-whosonfirst-spatial/blob/main/query/query.go#L13) definition which defines additional query filters not exposed here. These include placetype, "current"-ness, dates, etc. It may be desirable to expose similar filtering criteria in ATProto/Geo queries.
 
-As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to do define a minimum set of properties to be able to perform three functions:
+As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to define a minimum set of properties to be able to perform three functions:
 
 1. Provide a minimum amount of data for filtering: placetype, is_current, etc.
 2. Display a map with a point (centroid) and/or bounding box and a label.
@@ -310,7 +310,7 @@ San Francisco
 
 Should it be possible to filter (or exclude) results by placetype? Probably.
 
-As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to do define a minimum set of properties to be able to perform three functions:
+As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to define a minimum set of properties to be able to perform three functions:
 
 1. Provide a minimum amount of data for filtering: placetype, is_current, etc.
 2. Display a map with a point (centroid) and/or bounding box and a label.
