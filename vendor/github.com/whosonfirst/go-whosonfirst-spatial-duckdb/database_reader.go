@@ -84,6 +84,7 @@ func (db *DuckDBSpatialDatabase) Read(ctx context.Context, str_uri string) (io.R
 
 	f.Properties = map[string]interface{}{
 		"wof:id":           id,
+		"wof:name": name,
 		"wof:parent_id":    parent_id,
 		"wof:placetype":    placetype,
 		"wof:country":      country,

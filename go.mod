@@ -10,7 +10,7 @@ require (
 	github.com/whosonfirst/go-reader-cachereader v1.1.1
 	github.com/whosonfirst/go-whosonfirst-reader v1.0.2
 	github.com/whosonfirst/go-whosonfirst-spatial v0.13.2
-	github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.1.2
+	github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.1.3
 )
 
 require (
