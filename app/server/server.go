@@ -110,6 +110,23 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	logger.Debug("Enable get record handler", "endpoint", api.XRPC_RECORD)
 	mux.Handle(api.XRPC_RECORD, api_record_handler)
 
+	// Geocode handler
+
+	api_geocode_opts := &api.GeocodeHandlerOptions{
+		PlaceholderEndpoint: opts.PlaceholderEndpoint,
+	}
+
+	api_geocode_handler, err := api.GeocodeHandler(api_geocode_opts)
+
+	if err != nil {
+		return fmt.Errorf("failed to create get geocode handler because %s", err)
+	}
+
+	logger.Debug("Enable geocode handler", "endpoint", api.XRPC_GEOCODE)
+	mux.Handle(api.XRPC_GEOCODE, api_geocode_handler)
+
+	// Start server
+
 	s, err := server.NewServer(ctx, opts.ServerURI)
 
 	if err != nil {

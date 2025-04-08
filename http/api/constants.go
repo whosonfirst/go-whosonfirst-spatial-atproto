@@ -1,5 +1,7 @@
 package api
 
+const P_QUERY string = "q"
+
 const P_TILE_Z string = "z"
 
 const P_TILE_X string = "x"
@@ -21,5 +23,7 @@ const XRPC_POINT_IN_POLYGON_TILE string = "/xrpc/org.whosonfirst.PointInPolygonW
 const XRPC_INTERSECTS string = "/xrpc/org.whosonfirst.Intersects"
 
 const XRPC_RECORD string = "/xrpc/org.whosonfirst.getRecord"
+
+const XRPC_GEOCODE string = "/xrpc/org.whosonfirst.geocode"
 
 const GEOJSON string = "application/geo+json"
