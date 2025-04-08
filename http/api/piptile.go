@@ -81,6 +81,13 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 			return
 		}
 
+		// To do: For each result:
+		// Fetch geojson Feature (using Read)
+		// Trim/clip geometry to maptile
+		// Return GeoJSON or ... ?
+		// https://pkg.go.dev/github.com/paulmach/orb@v0.11.1/clip#Collection
+		// https://pkg.go.dev/github.com/paulmach/orb@v0.11.1#Collection
+		
 		// Generate ATGeo here...
 
 		rsp.Header().Set("Content-type", "application/json")
