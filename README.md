@@ -61,12 +61,13 @@ go run -mod vendor cmd/server/main.go \
 		-verbose \
 		-spatial-database-uri 'duckdb://?uri=/Users/asc/whosonfirst/go-whosonfirst-spatial-atproto/fixtures/sf_county.parquet'
 
-2025/04/03 18:14:09 DEBUG Verbose logging enabled
-2025/04/03 18:14:09 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.PointInPolygon
-2025/04/03 18:14:09 DEBUG Enable point in polygon from tile handler endpoint=/xrpc/org.whosonfirst.PointInPolygonWithTile
-2025/04/03 18:14:09 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.Intersects
-2025/04/03 18:14:09 DEBUG Enable get record handler endpoint=/xrpc/org.whosonfirst.getRecord
-2025/04/03 18:14:09 INFO Listening for requests address=http://localhost:8080
+2025/04/07 19:46:38 DEBUG Verbose logging enabled
+2025/04/07 19:46:38 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.PointInPolygon
+2025/04/07 19:46:38 DEBUG Enable point in polygon from tile handler endpoint=/xrpc/org.whosonfirst.PointInPolygonWithTile
+2025/04/07 19:46:38 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.Intersects
+2025/04/07 19:46:38 DEBUG Enable get record handler endpoint=/xrpc/org.whosonfirst.getRecord
+2025/04/07 19:46:38 DEBUG Enable geocode handler endpoint=/xrpc/org.whosonfirst.geocode
+2025/04/07 19:46:38 INFO Listening for requests address=http://localhost:8080
 ```
 
 ### Get record
@@ -319,6 +320,72 @@ As written this endpoint returns records encoded as a Who's On First [StandardPl
 The use of the `SPR` in these responses is not to advocate for the use of the Who's On First `SPR` in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 As mentioned earlier the `SPR` is not a good fit for this operation since it only returns bounding boxes and not actually geometries necessary to perform a point-in-polygon operation on device.
+
+### Geocode
+
+Returns places matching a string (geocode).
+
+```
+$> curl -s 'http://localhost:8080/xrpc/org.whosonfirst.geocode?q=Latin+American+Club' | jq
+[
+  {
+    "id": 571986789,
+    "name": "Latin American Club",
+    "placetype": "venue",
+    "lineage": [
+      {
+        "locality": {
+          "id": 85922583,
+          "name": "San Francisco",
+          "abbr": "SF",
+          "languageDefaulted": true
+        },
+        "macrohood": {
+          "id": 1108830809,
+          "name": "Mission District",
+          "languageDefaulted": true
+        },
+        "neighbourhood": {
+          "id": 85834637,
+          "name": "Inner Mission",
+          "languageDefaulted": true
+        },
+        "venue": {
+          "id": 571986789,
+          "name": "Latin American Club",
+          "languageDefaulted": true
+        }
+      }
+    ],
+    "geom": {
+      "bbox": "-122.420536,37.755348,-122.420536,37.755348",
+      "lat": 37.755348,
+      "lon": -122.420536
+    },
+    "languageDefaulted": true
+  }
+]
+```
+
+#### Notes
+
+This method simply proxies the [Placeholder API](https://github.com/pelias/placeholder/). As such you will need to run an instance of the Placeholder server and specify its endpoint with the `-placeholder-endpoint` command-line flag (both default to `http://localhost:3000`).
+
+The Placeholder API uses a SQLite database for lookups. The default SQLite database is 5GB with global coverage. For the purposes of this demo there is a smaller (San Francisco country sized) database that is included in the `fixtures` folder. This database contains both administrative records _and_ venues. Like the GeoParquet files this database is bundled using Git LFS and is further compressed using `bzip2`.
+
+To use the bundled Placeholder database you will do to the following (adjusting paths as necessary):
+
+```
+$> bunzip -k fixtures/store.sqlite3.bz2
+
+$> cd /usr/local/placeholder
+$> npm install
+$> export PLACEHOLDER_DATA /usr/local/go-whosonfirst-spatial-atproto/fixtures
+$> export HOST localhost
+$> npm start
+```
+
+As written this endpoint returns records encoded as Placeholder API results. Their use is not to advocate for the use of the Who's On First `SPR` in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 ## See also
 

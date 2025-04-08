@@ -9,8 +9,9 @@ import (
 )
 
 type RunOptions struct {
-	ServerURI          string
-	SpatialDatabaseURI string
+	ServerURI           string
+	SpatialDatabaseURI  string
+	PlaceholderEndpoint string
 	// PropertiesReaderURI    string
 	// EnableCustomPlacetypes bool
 	// CustomPlacetypes       string
@@ -28,8 +29,9 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	}
 
 	opts := &RunOptions{
-		ServerURI:          server_uri,
-		SpatialDatabaseURI: spatial_database_uri,
+		ServerURI:           server_uri,
+		SpatialDatabaseURI:  spatial_database_uri,
+		PlaceholderEndpoint: placeholder_endpoint,
 		// PropertiesReaderURI:    properties_reader_uri,
 		// EnableCustomPlacetypes: enable_custom_placetypes,
 		// CustomPlacetypes:       custom_placetypes,

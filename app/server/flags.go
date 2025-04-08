@@ -12,6 +12,7 @@ import (
 var verbose bool
 var server_uri string
 var spatial_database_uri string
+var placeholder_endpoint string
 
 // var properties_reader_uri string
 // var enable_custom_placetypes bool
@@ -25,6 +26,8 @@ func DefaultFlagSet() (*flag.FlagSet, error) {
 	desc_databases := fmt.Sprintf("A valid whosonfirst/go-whosonfirst-spatial/data.SpatialDatabase URI. options are: %s", available_databases)
 
 	fs.StringVar(&spatial_database_uri, "spatial-database-uri", "rtree://", desc_databases)
+
+	fs.StringVar(&placeholder_endpoint, "placeholder-endpoint", "http://localhost:3000", "The URL that the Placeholder API is listening on.")
 
 	// available_readers := reader.Schemes()
 	// desc_readers := fmt.Sprintf("A valid whosonfirst/go-reader.Reader URI. Available options are: %s", available_readers)
