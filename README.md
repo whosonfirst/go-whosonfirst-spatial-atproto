@@ -385,7 +385,7 @@ $> export HOST localhost
 $> npm start
 ```
 
-As written this endpoint returns records encoded as Placeholder API results. Their use is not to advocate for the use of the Who's On First `SPR` in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
+As written this endpoint returns records encoded as Placeholder API results. Their inclusion is not to advocate for their use in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 ## See also
 
