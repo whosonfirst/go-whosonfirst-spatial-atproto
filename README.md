@@ -179,8 +179,6 @@ Return places that intersect a XZY map tile.
 
 This method exists as a way to provide a privacy/security preserving means to return enough geographic data for user-defined extent (the bounding box of a map tile) rather than an exact coordinate such that a client may perform a final point-in-polygon operation on device.
 
-_Note: As of this writing the implementation of this method does NOT return the necessary data to perform an on-device point-in-polygon operation. The current implementation is mostly to imagine what the chatter between a client and (geo) service provider might look like._
-
 ```
 $> curl -s 'http://localhost:8080/xrpc/org.whosonfirst.PointInPolygonWithTile?z=12&x=655&y=1583'  
 ```
@@ -189,17 +187,13 @@ This will return a GeoJSON FeatureCollection containing each Who's On First reco
 
 ![](docs/images/go-whosonfirst-spatial-atproto-piptile.png)
 
+As mentioned it is expected that clients will use this data to perform an actual point-in-polygon request, with exact coordinates, on-device. The details of how that happens are out of scope of this document.
+
 #### Notes
 
 Should it be possible to filter (or exclude) results by placetype? Probably.
 
-As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to define a minimum set of properties to be able to perform three functions:
-
-1. Provide a minimum amount of data for filtering: placetype, is_current, etc.
-2. Display a map with a point (centroid) and/or bounding box and a label.
-3. Define URIs and endpoints where additional data may be retrieved.
-
-The use of the `SPR` in these responses is not to advocate for the use of the Who's On First `SPR` in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
+As written this endpoint returns records encoded as a GeoJSON FeatureCollection. The use of GeoJSON in these responses is not to advocate for the format in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 As mentioned earlier the `SPR` is not a good fit for this operation since it only returns bounding boxes and not actually geometries necessary to perform a point-in-polygon operation on device.
 

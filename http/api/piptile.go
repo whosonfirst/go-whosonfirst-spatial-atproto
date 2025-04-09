@@ -101,7 +101,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 				xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
 				return
 			}
-			
+
 			body, err := wof_reader.LoadBytes(ctx, app.SpatialDatabase, id)
 
 			if err != nil {
@@ -109,7 +109,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 				xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
 				return
 			}
-			
+
 			f, err := geojson.UnmarshalFeature(body)
 
 			if err != nil {
@@ -139,7 +139,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 		rsp.Header().Set("Content-type", "application/json")
 
 		enc := json.NewEncoder(rsp)
-		err = enc.Encode(fc)		
+		err = enc.Encode(fc)
 
 		if err != nil {
 			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
