@@ -4,10 +4,14 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
+	"strconv"
 
 	"github.com/aaronland/go-http-sanitize"
+	"github.com/paulmach/orb"
+	"github.com/paulmach/orb/clip"
 	"github.com/paulmach/orb/geojson"
 	"github.com/paulmach/orb/maptile"
+	wof_reader "github.com/whosonfirst/go-whosonfirst-reader"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
 )
@@ -82,18 +86,60 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 		}
 
 		// To do: For each result:
-		// Fetch geojson Feature (using Read)
-		// Trim/clip geometry to maptile
-		// Return GeoJSON or ... ?
-		// https://pkg.go.dev/github.com/paulmach/orb@v0.11.1/clip#Collection
-		// https://pkg.go.dev/github.com/paulmach/orb@v0.11.1#Collection
-		
+		// Fetch geojson Feature
+		// Trim/clip geometries to maptile
+		// Return GeoJSON
+
+		fc := geojson.NewFeatureCollection()
+
+		for _, r := range intersects_rsp.Results() {
+
+			id, err := strconv.ParseInt(r.Id(), 10, 64)
+
+			if err != nil {
+				logger.Error("Failed to derive WOF ID", "id", r.Id(), "error", err)
+				xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+				return
+			}
+			
+			body, err := wof_reader.LoadBytes(ctx, app.SpatialDatabase, id)
+
+			if err != nil {
+				logger.Error("Failed to load body for WOF ID", "id", r.Id(), "error", err)
+				xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+				return
+			}
+			
+			f, err := geojson.UnmarshalFeature(body)
+
+			if err != nil {
+				logger.Error("Failed to unmarshal feature for WOF ID", "id", r.Id(), "error", err)
+				xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+				return
+			}
+
+			// Clipping happens below
+			fc.Append(f)
+		}
+
+		col := make([]orb.Geometry, len(fc.Features))
+
+		for idx, f := range fc.Features {
+			col[idx] = f.Geometry
+		}
+
+		col = clip.Collection(geom.Geometry().Bound(), col)
+
+		for idx, clipped_geom := range col {
+			fc.Features[idx].Geometry = clipped_geom
+		}
+
 		// Generate ATGeo here...
 
 		rsp.Header().Set("Content-type", "application/json")
 
 		enc := json.NewEncoder(rsp)
-		err = enc.Encode(intersects_rsp)
+		err = enc.Encode(fc)		
 
 		if err != nil {
 			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
