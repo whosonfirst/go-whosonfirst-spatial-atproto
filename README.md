@@ -179,147 +179,21 @@ Return places that intersect a XZY map tile.
 
 This method exists as a way to provide a privacy/security preserving means to return enough geographic data for user-defined extent (the bounding box of a map tile) rather than an exact coordinate such that a client may perform a final point-in-polygon operation on device.
 
-_Note: As of this writing the implementation of this method does NOT return the necessary data to perform an on-device point-in-polygon operation. The current implementation is mostly to imagine what the chatter between a client and (geo) service provider might look like._
+```
+$> curl -s 'http://localhost:8080/xrpc/org.whosonfirst.PointInPolygonWithTile?z=12&x=655&y=1583'  
+```
 
-```
-$> curl -s 'http://localhost:8080/xrpc/org.whosonfirst.PointInPolygonWithTile?z=12&x=655&y=1583' | jq -r '.places[]["wof:name"]'                                      
-Excelsior
-Mission Terrace
-St. Mary's Park
-St. Mary's
-Lost Tribe of College Hill
-Little Saigon
-The Sit/Lie
-Off Market
-Le marché
-Little Saigon
-Union Square
-Forgotten Island
-The Park
-The Hydeaway
-The Rambles
-Tender Wasteland
-The Loin Pit
-The Panhandle
-The Naked Hood
-Tenderloin East
-Delicious Fields
-The Gimlet
-French Quarter
-Glen Park
-Western Addition
-Noe Valley
-Alamo Square
-Lower Haight
-The Castro
-Duboce Triangle
-Japantown
-Dolores Heights
-Hayes Valley
-Mission Dolores
-Mint Hill
-Cathedral Hill
-Fairmount
-Baja Noe
-Thomas Paine Square
-Little Osaka
-Laguna Heights
-St. Francis Square
-Malcolm X Square
-Mission Dolores Park
-Lower Nob Hill
-Rental Row
-The Whoa-Man
-The Post Up
-Tenderloin Heights
-Academy Downs
-BoHo Slope
-Visitacion Valley
-Bayview Heights
-Hunters Point
-Portola
-Bayview
-Silver Terrace
-India Basin
-Bernal Heights
-Sutro Vista
-Hill People of Powhattan
-Cortlandia
-Alemanistan
-Baja Cortlandia
-Holly Park
-The Crescent
-Liminal Zone of Deliciousness
-University Mound
-Apparel City
-Bayview-Hunters Point
-South Basin
-Candlestick Point
-Bret Harte
-La Lengua
-Eugeniaia
-Sutrito Canine Republic
-Esmereldia
-Peralta Heights
-NanoTokyo
-Precitaville
-Santana Rancho
-Serpentinia
-Principality of Chicken John
-Inner Mission
-Potrero Hill
-Potrero Flats
-Showplace Square
-South of Market
-Intermission
-Civic Center
-Financial District South
-The Nipple
-Foxy Heights
-Civic Center
-Opera Plaza
-The Money Shot
-Ghost Market
-Fecal Fountain
-The Yo
-Tenderloin
-Saint Anne's
-Van Ness
-The Bar
-The Castle Triangle
-Pill Hill
-Deli Hills
-Tender Turnpike
-NFL Experience
-Victoria Mews
-West Soma
-Financial District
-Mission Bay
-Central Waterfront
-Rincon Hill
-South Beach
-Dogpatch
-McLaren Park
-Downtown
-Mission District
-Produce Market
-San Francisco
-San Francisco
-```
+This will return a GeoJSON FeatureCollection containing each Who's On First record that intersects with boundary of the ZXY tile. Rather that copy-pasting a bunch of GeoJSON here is a picture to explain what that "looks" like:
+
+![](docs/images/go-whosonfirst-spatial-atproto-piptile.png)
+
+As mentioned it is expected that clients will use this data to perform an actual point-in-polygon request, with exact coordinates, on-device. The details of how that happens are out of scope of this document.
 
 #### Notes
 
 Should it be possible to filter (or exclude) results by placetype? Probably.
 
-As written this endpoint returns records encoded as a Who's On First [StandardPlacesResult](https://github.com/whosonfirst/go-whosonfirst-spr/blob/main/spr.go) (SPR). The goal behind the `SPR` was to define a minimum set of properties to be able to perform three functions:
-
-1. Provide a minimum amount of data for filtering: placetype, is_current, etc.
-2. Display a map with a point (centroid) and/or bounding box and a label.
-3. Define URIs and endpoints where additional data may be retrieved.
-
-The use of the `SPR` in these responses is not to advocate for the use of the Who's On First `SPR` in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
-
-As mentioned earlier the `SPR` is not a good fit for this operation since it only returns bounding boxes and not actually geometries necessary to perform a point-in-polygon operation on device.
+As written this endpoint returns records encoded as a GeoJSON FeatureCollection. The use of GeoJSON in these responses is not to advocate for the format in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
 ### Geocode
 
