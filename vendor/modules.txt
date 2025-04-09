@@ -52,22 +52,22 @@ github.com/dhconnelly/rtreego
 ## explicit; go 1.18
 github.com/dominikbraun/graph
 github.com/dominikbraun/graph/draw
-# github.com/duckdb/duckdb-go-bindings v0.1.13
+# github.com/duckdb/duckdb-go-bindings v0.1.14
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings
-# github.com/duckdb/duckdb-go-bindings/darwin-amd64 v0.1.8
+# github.com/duckdb/duckdb-go-bindings/darwin-amd64 v0.1.9
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/darwin-amd64
-# github.com/duckdb/duckdb-go-bindings/darwin-arm64 v0.1.8
+# github.com/duckdb/duckdb-go-bindings/darwin-arm64 v0.1.9
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/darwin-arm64
-# github.com/duckdb/duckdb-go-bindings/linux-amd64 v0.1.8
+# github.com/duckdb/duckdb-go-bindings/linux-amd64 v0.1.9
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/linux-amd64
-# github.com/duckdb/duckdb-go-bindings/linux-arm64 v0.1.8
+# github.com/duckdb/duckdb-go-bindings/linux-arm64 v0.1.9
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/linux-arm64
-# github.com/duckdb/duckdb-go-bindings/windows-amd64 v0.1.8
+# github.com/duckdb/duckdb-go-bindings/windows-amd64 v0.1.9
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/windows-amd64
 # github.com/g8rswimmer/error-chain v1.0.0
@@ -112,13 +112,13 @@ github.com/klauspost/compress/zstd/internal/xxhash
 # github.com/klauspost/cpuid/v2 v2.2.9
 ## explicit; go 1.20
 github.com/klauspost/cpuid/v2
-# github.com/marcboeker/go-duckdb/arrowmapping v0.0.6
+# github.com/marcboeker/go-duckdb/arrowmapping v0.0.7
 ## explicit; go 1.24
 github.com/marcboeker/go-duckdb/arrowmapping
-# github.com/marcboeker/go-duckdb/mapping v0.0.6
+# github.com/marcboeker/go-duckdb/mapping v0.0.7
 ## explicit; go 1.24
 github.com/marcboeker/go-duckdb/mapping
-# github.com/marcboeker/go-duckdb/v2 v2.1.0
+# github.com/marcboeker/go-duckdb/v2 v2.2.0
 ## explicit; go 1.24
 github.com/marcboeker/go-duckdb/v2
 # github.com/natefinch/atomic v1.0.1
@@ -230,15 +230,16 @@ github.com/whosonfirst/go-whosonfirst-reader
 ## explicit; go 1.12
 github.com/whosonfirst/go-whosonfirst-sources
 github.com/whosonfirst/go-whosonfirst-sources/sources
-# github.com/whosonfirst/go-whosonfirst-spatial v0.13.2
+# github.com/whosonfirst/go-whosonfirst-spatial v0.14.0
 ## explicit; go 1.23
 github.com/whosonfirst/go-whosonfirst-spatial
 github.com/whosonfirst/go-whosonfirst-spatial/application
 github.com/whosonfirst/go-whosonfirst-spatial/database
 github.com/whosonfirst/go-whosonfirst-spatial/filter
 github.com/whosonfirst/go-whosonfirst-spatial/geo
+github.com/whosonfirst/go-whosonfirst-spatial/maptile
 github.com/whosonfirst/go-whosonfirst-spatial/query
-# github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.1.3
+# github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.1.4
 ## explicit; go 1.24.0
 github.com/whosonfirst/go-whosonfirst-spatial-duckdb
 # github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.7
