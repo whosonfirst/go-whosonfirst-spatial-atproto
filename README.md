@@ -195,8 +195,6 @@ Should it be possible to filter (or exclude) results by placetype? Probably.
 
 As written this endpoint returns records encoded as a GeoJSON FeatureCollection. The use of GeoJSON in these responses is not to advocate for the format in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
 
-As mentioned earlier the `SPR` is not a good fit for this operation since it only returns bounding boxes and not actually geometries necessary to perform a point-in-polygon operation on device.
-
 ### Geocode
 
 Returns places matching a string (geocode).
