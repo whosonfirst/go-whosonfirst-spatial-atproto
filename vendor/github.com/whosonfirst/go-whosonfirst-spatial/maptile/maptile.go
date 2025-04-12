@@ -2,7 +2,9 @@ package maptile
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"log/slog"
 	"strconv"
 
 	"github.com/paulmach/orb"
@@ -10,14 +12,15 @@ import (
 	"github.com/paulmach/orb/geojson"
 	orb_maptile "github.com/paulmach/orb/maptile"
 	wof_reader "github.com/whosonfirst/go-whosonfirst-reader"
+	"github.com/whosonfirst/go-whosonfirst-spatial"
 	"github.com/whosonfirst/go-whosonfirst-spatial/database"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
 )
 
-// PointInPolygonCandidateFeaturessFromTile will derive the bounds of map tile 't' and use that geometry
+// PointInPolygonCandidateFeaturesFromTile will derive the bounds of map tile 't' and use that geometry
 // to perform an "intersects" query against database 'db'. The result set will then be transformed in to
 // GeoJSON FeatureCollection where each feature's geometry will be trim to extent of map tile 't'.
-func PointInPolygonCandidateFeaturessFromTile(ctx context.Context, db database.SpatialDatabase, q *query.SpatialQuery, t orb_maptile.Tile) (*geojson.FeatureCollection, error) {
+func PointInPolygonCandidateFeaturesFromTile(ctx context.Context, db database.SpatialDatabase, q *query.SpatialQuery, t *orb_maptile.Tile) (*geojson.FeatureCollection, error) {
 
 	tile_bounds := t.Bound()
 	tile_geom := tile_bounds.ToPolygon()
@@ -49,6 +52,13 @@ func PointInPolygonCandidateFeaturessFromTile(ctx context.Context, db database.S
 		body, err := wof_reader.LoadBytes(ctx, db, id)
 
 		if err != nil {
+
+			if errors.Is(err, spatial.ErrNotFound) {
+				slog.Warn("Failed to read data for WOF ID, not found", "id", id)
+				continue
+			}
+
+			slog.Info("POO")
 			return nil, fmt.Errorf("Failed to read data for WOF ID %d, %w", id, err)
 		}
 

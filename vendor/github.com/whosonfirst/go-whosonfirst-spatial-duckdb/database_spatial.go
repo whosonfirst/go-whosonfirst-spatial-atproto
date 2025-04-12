@@ -138,14 +138,18 @@ func (db *DuckDBSpatialDatabase) IntersectsWithIterator(ctx context.Context, geo
 		}
 
 		defer rows.Close()
-
+		
 		for r, err := range db.rowsToSPR(ctx, rows, filters...) {
 
-			yield(r, err)
-
 			if err != nil {
+				logger.Error("Failed to derive SPR from row", "error", err)
 				return
 			}
+			
+			if !yield(r, err){
+				break
+			}
+
 		}
 	}
 }
@@ -157,7 +161,7 @@ func (db *DuckDBSpatialDatabase) Disconnect(ctx context.Context) error {
 func (db *DuckDBSpatialDatabase) rowsToSPR(ctx context.Context, rows *sql.Rows, filters ...spatial.Filter) iter.Seq2[spr.StandardPlacesResult, error] {
 
 	logger := slog.Default()
-
+	
 	return func(yield func(spr.StandardPlacesResult, error) bool) {
 
 		for rows.Next() {

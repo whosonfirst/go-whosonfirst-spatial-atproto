@@ -4,3 +4,4 @@ work
 go.work*
 *.a
 *.h
+.DS_Store

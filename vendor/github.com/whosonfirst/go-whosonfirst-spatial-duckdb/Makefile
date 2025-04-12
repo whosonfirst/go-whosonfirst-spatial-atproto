@@ -4,7 +4,7 @@ LDFLAGS=-s -w
 CWD=$(shell pwd)
 
 DATABASE=duckdb://?uri=$(CWD)/fixtures/sf_county.parquet
-INITIAL_VIEW=-122.384292,37.621131,13
+INITIAL_VIEW=-122.420967,37.788286,13
 
 # https://github.com/marcboeker/go-duckdb?tab=readme-ov-file#vendoring
 # go install github.com/goware/modvendor@latest

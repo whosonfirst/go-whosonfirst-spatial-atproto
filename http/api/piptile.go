@@ -52,7 +52,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 		// Something something something add filters here...
 		spatial_q := &query.SpatialQuery{}
 
-		fc, err := maptile.PointInPolygonCandidateFeaturessFromTile(ctx, app.SpatialDatabase, spatial_q, map_t)
+		fc, err := maptile.PointInPolygonCandidateFeaturesFromTile(ctx, app.SpatialDatabase, spatial_q, &map_t)
 
 		if err != nil {
 			logger.Error("Failed to execute point in polygon query", "error", err)
