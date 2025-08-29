@@ -12,7 +12,6 @@ First, install `goware/modvendor` and do some unfortunate hoop-jumping around th
 
 ```
 $> go install github.com/goware/modvendor@latest
-
 $> cd go-whosonfirst-spatial-atproto
 $> go mod tidy
 $> go mod vendor
@@ -37,7 +36,7 @@ go run -mod vendor cmd/server/main.go \
 
 That's it (aside from the geocoding piece discussed next). This package comes bundled with a "canned" example database for San Francisco county so you can start testing things right away. See below for instructions on running the server with a global (or just different) data.
 
-_Important: The `/xrpc/org.whosonfirst.geocode` assumes you have a copy of the [pelias/placeholder](github.com/pelias/placeholder/) coarse geocoding server already running and listening for requests on `localhost:3000`. The details of running a Placeholder server are outside the scope of this document but it's very easy assuming you have `node.js` or `Docker` installed._
+_Important: The `/xrpc/org.whosonfirst.geocode` endpoint assumes you have a copy of the [pelias/placeholder](github.com/pelias/placeholder/) coarse geocoding server already running and listening for requests on `localhost:3000`. The details of running a Placeholder server are outside the scope of this document but it's very easy assuming you have `node.js` or `Docker` installed._
 
 This package bundles a custom Placeholder-style database containing both administrative _and_ venue data for San Francisco county. Again this is included only for demonstration purposes. If you want to use a global database of administrative records you'll need to download it from the Geocode.earth servers. If you want to use a global database of administrative _and_ venue records you'll need to build your own custom database. Details for both options are included below.
 
