@@ -6,6 +6,41 @@ Nothing about this package should be considered "stable".
 
 It is working code to try and identify the outlines for a series of open questions about how geo services should be exposed in an ATProto context.
 
+## Running (tl;dr)
+
+First, install `goware/modvendor` and do some unfortunate hoop-jumping around the Go DuckDB bindings. This is necessary because those bindings are not vendored due to size issues.
+
+```
+$> go install github.com/goware/modvendor@latest
+
+$> cd go-whosonfirst-spatial-atproto
+$> go mod tidy
+$> go mod vendor
+$> make modvendor
+```
+
+And then:
+
+```
+$> make debug
+go run -mod vendor cmd/server/main.go \
+		-verbose \
+		-spatial-database-uri 'duckdb://?uri=/usr/local/whosonfirst/go-whosonfirst-spatial-atproto/fixtures/sf_county.parquet'
+2025/08/29 13:58:07 DEBUG Verbose logging enabled
+2025/08/29 13:58:07 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.PointInPolygon
+2025/08/29 13:58:07 DEBUG Enable point in polygon from tile handler endpoint=/xrpc/org.whosonfirst.PointInPolygonWithTile
+2025/08/29 13:58:07 DEBUG Enable point in polygon handler endpoint=/xrpc/org.whosonfirst.Intersects
+2025/08/29 13:58:07 DEBUG Enable get record handler endpoint=/xrpc/org.whosonfirst.getRecord
+2025/08/29 13:58:07 DEBUG Enable geocode handler endpoint=/xrpc/org.whosonfirst.geocode
+2025/08/29 13:58:07 INFO Listening for requests address=http://localhost:8080
+```
+
+That's it (aside from the geocoding piece discussed next). This package comes bundled with a "canned" example database for San Francisco county so you can start testing things right away. See below for instructions on running the server with a global (or just different) data.
+
+_Important: The `/xrpc/org.whosonfirst.geocode` assumes you have a copy of the [pelias/placeholder](github.com/pelias/placeholder/) coarse geocoding server already running and listening for requests on `localhost:3000`. The details of running a Placeholder server are outside the scope of this document but it's very easy assuming you have `node.js` or `Docker` installed._
+
+This package bundles a custom Placeholder-style database containing both administrative _and_ venue data for San Francisco county. Again this is included only for demonstration purposes. If you want to use a global database of administrative records you'll need to download it from the Geocode.earth servers. If you want to use a global database of administrative _and_ venue records you'll need to build your own custom database. Details for both options are included below.
+
 ## Building
 
 At minimum you will need to install the [Go](https://go.dev/dl) programming language and, ideally, the `make` command line tool to run these tools. If you don't have `make` installed you can copy-paste all the examples, below, in to a terminal.
@@ -13,16 +48,6 @@ At minimum you will need to install the [Go](https://go.dev/dl) programming lang
 This code is derived from the [whosonfirst/go-whosonfirst-spatial](https://github.com/whosonfirst/?q=go-whosonfirst-spatial&type=all&language=&sort=) packages which are organized in such a way that interface and service definitions are separate from any given database implementation.
 
 For the sake of brevity this package is a "smushing up" of the [whosonfirst/go-whosonfirst-spatial-www](https://github.com/whosonfirst/go-whosonfirst-spatial-www) and [whosonfirst/go-whosonfirst-spatial-duckdb](https://github.com/whosonfirst/go-whosonfirst-spatial-duckdb) packages. Assuming this code goes anywhere beyond the experimental phase it will likely be broken up in discrete pieces. For now it's just one big messy party.
-
-### Data sources
-
-As mentioned this package defaults to using [DuckDB](https://duckdb.org/) as its database engine. Other databases are supported but they are not enabled by default. Poke me if you want to know how to use a different database (SQLite, PMTiles, etc.)
-
-There is a default DuckDB GeoParquet file for [San Francisco county](https://spelunker.whosonfirst.org/id/102087579) and all its descendants in the [fixtures](fixtures) directory. This file is bundled using Git LFS so depending on your setup you may need to do additional `git clone whatever` commands.
-
-This file was derived from the [Geocode Earth GeoParquet download](https://geocode.earth/data/whosonfirst/combined/) so that will work too if you feel like downloading a 8GB parquet file.
-
-The Geocode Earth GeoParquet files do not contain relevant Who's On First properties for filtering by date or "current-ness" so occasionally places like the [NFL Experience](https://spelunker.whosonfirst.org/id/420564211) microhood, which only lasted a week in 2016, may appear (below).
 
 ### DuckDB
 
@@ -35,6 +60,26 @@ $> modvendor -copy="**/*.a **/*.h" -v
 ```
 
 This package includes handy `modvendor` Makefile target for automating some of that.
+
+### Data sources
+
+As mentioned this package defaults to using [DuckDB](https://duckdb.org/) as its database engine. Other databases are supported but they are not enabled by default. Poke me if you want to know how to use a different database (SQLite, PMTiles, etc.)
+
+There is a default DuckDB GeoParquet file for [San Francisco county](https://spelunker.whosonfirst.org/id/102087579) and all its descendants in the [fixtures](fixtures) directory. This file is bundled using Git LFS so depending on your setup you may need to do additional `git clone whatever` commands.
+
+This file was derived from the [Geocode Earth GeoParquet download](https://geocode.earth/data/whosonfirst/combined/) so that will work too if you feel like downloading a 8GB parquet file.
+
+The Geocode Earth GeoParquet files do not contain relevant Who's On First properties for filtering by date or "current-ness" so occasionally places like the [NFL Experience](https://spelunker.whosonfirst.org/id/420564211) microhood, which only lasted a week in 2016, may appear (below).
+
+#### Global Who's On First GeoParquet database
+
+* https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-admin-latest.db.bz2
+
+#### Global Who's On First Placeholder (SQLite) database
+
+* https://data.geocode.earth/placeholder/2021-08-01/store.sqlite3.gz
+
+_Note: The (Geocode.earth) Placeholder database has not been updated since 2021. If you need or want to build your own Placeholder database (for example a global database with venues) take a look at the ["Building a custom Placeholder geocoding database"](https://millsfield.sfomuseum.org/blog/2025/04/28/placeholder-custom/) blog post._
 
 ## Things this package does
 
@@ -271,18 +316,6 @@ $> npm start
 ```
 
 As written this endpoint returns records encoded as Placeholder API results. Their inclusion is not to advocate for their use in ATProto/Geo responses but only to try and identify which properties a client may need to meet user-needs. For example, a "placetype" attribute to allow filtering for privacy or security reasons.
-
-## Data files
-
-### Global Who's On First GeoParquet database
-
-* https://data.geocode.earth/wof/dist/sqlite/whosonfirst-data-admin-latest.db.bz2
-
-### Global Who's On First Placeholder (SQLite) database
-
-* https://data.geocode.earth/placeholder/2021-08-01/store.sqlite3.gz
-
-_Note: The (Geocode.earth) Placeholder database has not been updated since 2021. If you need or want to build your own Placeholder database (for example a global database with venues) take a look at the ["Building a custom Placeholder geocoding database"](https://millsfield.sfomuseum.org/blog/2025/04/28/placeholder-custom/) blog post._
 
 ## See also
 
