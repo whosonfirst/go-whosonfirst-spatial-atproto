@@ -7,7 +7,7 @@ import (
 	"log/slog"
 	gohttp "net/http"
 
-	"github.com/aaronland/go-http-server"
+	"github.com/aaronland/go-http/v3/server"
 	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/api"
 	app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 )

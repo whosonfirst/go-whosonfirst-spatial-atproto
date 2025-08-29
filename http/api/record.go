@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/aaronland/go-http-sanitize"
-	"github.com/whosonfirst/go-whosonfirst-reader"
+	"github.com/aaronland/go-http/v3/sanitize"
+	"github.com/whosonfirst/go-whosonfirst-reader/v2"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 )
 

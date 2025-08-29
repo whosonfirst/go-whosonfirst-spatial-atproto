@@ -1,6 +1,5 @@
 package duckdb
 
-import "C"
 import (
 	"errors"
 	"fmt"
@@ -12,10 +11,6 @@ func getError(errDriver error, err error) error {
 		return fmt.Errorf("%s: %w", driverErrMsg, errDriver)
 	}
 	return fmt.Errorf("%s: %w: %s", driverErrMsg, errDriver, err.Error())
-}
-
-func duckdbError(err *C.char) error {
-	return fmt.Errorf("%s: %w", duckdbErrMsg, errors.New(C.GoString(err)))
 }
 
 func castError(actual string, expected string) error {
@@ -78,7 +73,7 @@ const (
 	structFieldErrMsg      = "invalid STRUCT field"
 	columnCountErrMsg      = "invalid column count"
 	unsupportedTypeErrMsg  = "unsupported data type"
-	invalidatedAppenderMsg = "appended data has been invalidated due to corrupt row"
+	invalidatedAppenderMsg = "appended and not yet flushed data has been invalidated due to error"
 	tryOtherFuncErrMsg     = "please try this function instead"
 	indexErrMsg            = "index"
 	unknownTypeErrMsg      = "unknown type"
