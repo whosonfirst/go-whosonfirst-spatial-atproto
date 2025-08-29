@@ -48,8 +48,6 @@ vendoring golang.org/x/tools/internal/gcimporter/testdata/versions/test_go1.20_u
 
 It's an unfortunate extra set of steps but "oh well".
 
-_This package has not been tested with `marcboeker/go-duckdb/v2` yet._
-
 ## GeoParquet files
 
 As of this writing this package targets the GeoParquet files [produced by geocode.earth](https://geocode.earth/data/whosonfirst/combined/).

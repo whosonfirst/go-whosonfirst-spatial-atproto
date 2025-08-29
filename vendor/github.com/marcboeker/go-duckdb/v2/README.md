@@ -1,17 +1,21 @@
 # Go SQL Driver For [DuckDB](https://github.com/duckdb/duckdb)
 ![Tests status](https://github.com/marcboeker/go-duckdb/actions/workflows/tests.yaml/badge.svg)
-[![GoDoc](https://godoc.org/github.com/marcboeker/go-duckdb?status.svg)](https://pkg.go.dev/github.com/marcboeker/go-duckdb)
+[![GoDoc](https://godoc.org/github.com/marcboeker/go-duckdb/v2?status.svg)](https://pkg.go.dev/github.com/marcboeker/go-duckdb/v2)
 
 The DuckDB driver conforms to the built-in `database/sql` interface.
 
-**Current DuckDB version: `v1.2.2`.**
+**Current DuckDB version: `v1.3.2`.**
 
-The first go-duckdb tag with that version is `v2.2.0`.
+The first go-duckdb tag with that version is `v2.3.3`.
 
 Previous DuckDB versions:
 
 | DuckDB   | go-duckdb |
 |----------|-----------|
+| `v1.3.2` | `v2.3.3`  |
+| `v1.3.1` | `v2.3.2`  |
+| `v1.3.0` | `v2.3.0`  |
+| `v1.2.2` | `v2.2.0`  |
 | `v1.2.1` | `v2.1.0`  |
 | `v1.2.0` | `v2.0.3`  |
 | `v1.1.3` | `v1.8.5`  |
@@ -152,7 +156,12 @@ CGO_ENABLED=1 CPPFLAGS="-DDUCKDB_STATIC_BUILD" CGO_LDFLAGS="-lduckdb_bundle -lc+
 ```
 
 You can also find these steps in the `Makefile` and the `tests.yaml`.
-The DuckDB team also publishes some pre-built bundled libraries as part of their [releases](https://github.com/duckdb/duckdb/releases).
+
+The DuckDB team also publishes pre-built libraries as part of their [releases](https://github.com/duckdb/duckdb/releases).
+The published zipped archives contain libraries for DuckDB core, the third-party libraries, and the default extensions.
+When linking, you might want to bundle these libraries into a single archive first.
+You can use any archive tool (e.g., `ar`). 
+DuckDB's `bundle-library` Makefile target contains an example of `ar`, or you can look at the Docker file [here](https://github.com/duckdb/duckdb/issues/17312#issuecomment-2885130728).
 
 #### Note on FreeBSD
 
@@ -212,7 +221,11 @@ DuckDB lives in process.
 Therefore, all its memory lives in the driver. 
 All allocations live in the host process, which is the Go application. 
 Especially for long-running applications, it is crucial to call the corresponding `Close`-functions as specified in [database/sql](https://godoc.org/database/sql). 
-The following is a list of examples.
+
+Additionally, it is crucial to call `Close()` on the database and/or connector of a persistent DuckDB database.
+That way, DuckDB synchronizes all changes from the WAL to its persistent storage.
+
+The following is a list of examples of `Close()`-functions.
 
 ```go
 db, err := sql.Open("duckdb", "")
@@ -225,10 +238,10 @@ rows, err := conn.QueryContext(context.Background(), "SELECT 42")
 // Alternatively, rows.Next() has to return false.
 rows.Close()
 
-appender, err := NewAppenderFromConn(conn, "", "test")
+appender, err := duckdb.NewAppenderFromConn(conn, "", "test")
 defer appender.Close()
 
-c, err := NewConnector("", nil)
+c, err := duckdb.NewConnector("", nil)
 // Optional, if passed to sql.OpenDB.
 defer c.Close()
 ```
@@ -320,3 +333,32 @@ for rdr.Next() {
 `go-duckdb` relies on the [`duckdb-go-bindings` module](https://github.com/duckdb/duckdb-go-bindings).
 Any pre-built library in `duckdb-go-bindings` statically links the default extensions: ICU, JSON, Parquet, and Autocomplete.
 Additionally, automatic extension loading is enabled.
+
+## Releasing a New DuckDB Version
+
+#### Update the Mappings
+
+1. Create a new branch.
+2. Update the `duckdb-go-bindings` dependencies in `mapping/mod.go` and `arrowmapping/mod.go`.
+3. Run `go mod tidy` inside `mapping` and inside `arrowmapping`.
+4. Commit and PR changes.
+5. Push two new tagged releases, `mapping/vx.x.x` and `arrowmapping/vx.x.x`.
+
+#### Update the Main Module
+
+1. Create a new branch.
+2. Update the `mapping` and `arrowmapping` dependencies in `mod.go`.
+3. Run `go mod tidy`.
+4. Update `VERSION=` in `tests.yaml`.
+5. Update the latest version in `README.md`.
+6. Commit and PR changes.
+7. Push a new tagged release, `vx.x.x`.
+
+```
+git tag <tagname>
+git push origin <tagname>
+```
+
+Example PRs: 
+- Update the Mappings: https://github.com/marcboeker/go-duckdb/pull/473
+- Update the Main Module: https://github.com/marcboeker/go-duckdb/pull/474

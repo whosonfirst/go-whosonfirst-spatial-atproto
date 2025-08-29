@@ -1,10 +1,8 @@
-# github.com/aaronland/go-http-sanitize v0.0.8
-## explicit; go 1.12
-github.com/aaronland/go-http-sanitize
-# github.com/aaronland/go-http-server v1.5.0
-## explicit; go 1.22
-github.com/aaronland/go-http-server
-# github.com/aaronland/go-json-query v0.1.5
+# github.com/aaronland/go-http/v3 v3.1.1
+## explicit; go 1.25.0
+github.com/aaronland/go-http/v3/sanitize
+github.com/aaronland/go-http/v3/server
+# github.com/aaronland/go-json-query v0.1.6
 ## explicit; go 1.22
 github.com/aaronland/go-json-query
 # github.com/aaronland/go-roster v1.0.0
@@ -13,8 +11,8 @@ github.com/aaronland/go-roster
 # github.com/akrylysov/algnhsa v1.1.0
 ## explicit; go 1.18
 github.com/akrylysov/algnhsa
-# github.com/apache/arrow-go/v18 v18.1.0
-## explicit; go 1.22.7
+# github.com/apache/arrow-go/v18 v18.4.0
+## explicit; go 1.23.0
 github.com/apache/arrow-go/v18/arrow
 github.com/apache/arrow-go/v18/arrow/array
 github.com/apache/arrow-go/v18/arrow/arrio
@@ -38,7 +36,7 @@ github.com/apache/arrow-go/v18/internal/bitutils
 github.com/apache/arrow-go/v18/internal/hashing
 github.com/apache/arrow-go/v18/internal/json
 github.com/apache/arrow-go/v18/internal/utils
-# github.com/aws/aws-lambda-go v1.47.0
+# github.com/aws/aws-lambda-go v1.49.0
 ## explicit; go 1.18
 github.com/aws/aws-lambda-go/events
 github.com/aws/aws-lambda-go/lambda
@@ -52,28 +50,31 @@ github.com/dhconnelly/rtreego
 ## explicit; go 1.18
 github.com/dominikbraun/graph
 github.com/dominikbraun/graph/draw
-# github.com/duckdb/duckdb-go-bindings v0.1.14
+# github.com/duckdb/duckdb-go-bindings v0.1.17
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings
-# github.com/duckdb/duckdb-go-bindings/darwin-amd64 v0.1.9
+# github.com/duckdb/duckdb-go-bindings/darwin-amd64 v0.1.12
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/darwin-amd64
-# github.com/duckdb/duckdb-go-bindings/darwin-arm64 v0.1.9
+# github.com/duckdb/duckdb-go-bindings/darwin-arm64 v0.1.12
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/darwin-arm64
-# github.com/duckdb/duckdb-go-bindings/linux-amd64 v0.1.9
+# github.com/duckdb/duckdb-go-bindings/linux-amd64 v0.1.12
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/linux-amd64
-# github.com/duckdb/duckdb-go-bindings/linux-arm64 v0.1.9
+# github.com/duckdb/duckdb-go-bindings/linux-arm64 v0.1.12
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/linux-arm64
-# github.com/duckdb/duckdb-go-bindings/windows-amd64 v0.1.9
+# github.com/duckdb/duckdb-go-bindings/windows-amd64 v0.1.12
 ## explicit; go 1.24
 github.com/duckdb/duckdb-go-bindings/windows-amd64
+# github.com/dustin/go-humanize v1.0.1
+## explicit; go 1.16
+github.com/dustin/go-humanize
 # github.com/g8rswimmer/error-chain v1.0.0
 ## explicit
 github.com/g8rswimmer/error-chain
-# github.com/go-viper/mapstructure/v2 v2.2.1
+# github.com/go-viper/mapstructure/v2 v2.3.0
 ## explicit; go 1.18
 github.com/go-viper/mapstructure/v2
 github.com/go-viper/mapstructure/v2/internal/errors
@@ -88,7 +89,7 @@ github.com/goccy/go-json/internal/encoder/vm_color_indent
 github.com/goccy/go-json/internal/encoder/vm_indent
 github.com/goccy/go-json/internal/errors
 github.com/goccy/go-json/internal/runtime
-# github.com/google/flatbuffers v25.1.24+incompatible
+# github.com/google/flatbuffers v25.2.10+incompatible
 ## explicit
 github.com/google/flatbuffers/go
 # github.com/google/uuid v1.6.0
@@ -100,25 +101,26 @@ github.com/hashicorp/errwrap
 # github.com/hashicorp/go-multierror v1.1.1
 ## explicit; go 1.13
 github.com/hashicorp/go-multierror
-# github.com/klauspost/compress v1.17.11
-## explicit; go 1.21
+# github.com/klauspost/compress v1.18.0
+## explicit; go 1.22
 github.com/klauspost/compress
 github.com/klauspost/compress/fse
 github.com/klauspost/compress/huff0
 github.com/klauspost/compress/internal/cpuinfo
+github.com/klauspost/compress/internal/le
 github.com/klauspost/compress/internal/snapref
 github.com/klauspost/compress/zstd
 github.com/klauspost/compress/zstd/internal/xxhash
-# github.com/klauspost/cpuid/v2 v2.2.9
-## explicit; go 1.20
+# github.com/klauspost/cpuid/v2 v2.2.11
+## explicit; go 1.22
 github.com/klauspost/cpuid/v2
-# github.com/marcboeker/go-duckdb/arrowmapping v0.0.7
+# github.com/marcboeker/go-duckdb/arrowmapping v0.0.10
 ## explicit; go 1.24
 github.com/marcboeker/go-duckdb/arrowmapping
-# github.com/marcboeker/go-duckdb/mapping v0.0.7
+# github.com/marcboeker/go-duckdb/mapping v0.0.11
 ## explicit; go 1.24
 github.com/marcboeker/go-duckdb/mapping
-# github.com/marcboeker/go-duckdb/v2 v2.2.0
+# github.com/marcboeker/go-duckdb/v2 v2.3.4
 ## explicit; go 1.24
 github.com/marcboeker/go-duckdb/v2
 # github.com/natefinch/atomic v1.0.1
@@ -137,7 +139,7 @@ github.com/paulmach/orb/internal/length
 github.com/paulmach/orb/internal/mercator
 github.com/paulmach/orb/maptile
 github.com/paulmach/orb/planar
-# github.com/peterstace/simplefeatures v0.53.0
+# github.com/peterstace/simplefeatures v0.54.0
 ## explicit; go 1.17
 github.com/peterstace/simplefeatures/geom
 github.com/peterstace/simplefeatures/rtree
@@ -159,8 +161,8 @@ github.com/sfomuseum/go-edtf/level2
 github.com/sfomuseum/go-edtf/parser
 github.com/sfomuseum/go-edtf/re
 github.com/sfomuseum/go-edtf/tests
-# github.com/sfomuseum/go-flags v0.10.0
-## explicit; go 1.16
+# github.com/sfomuseum/go-flags v0.11.0
+## explicit; go 1.22
 github.com/sfomuseum/go-flags/flagset
 # github.com/sfomuseum/go-timings v1.4.0
 ## explicit; go 1.22
@@ -174,7 +176,7 @@ github.com/tidwall/gjson
 # github.com/tidwall/match v1.1.1
 ## explicit; go 1.15
 github.com/tidwall/match
-# github.com/tidwall/pretty v1.2.0
+# github.com/tidwall/pretty v1.2.1
 ## explicit; go 1.16
 github.com/tidwall/pretty
 # github.com/tidwall/sjson v1.2.5
@@ -186,19 +188,16 @@ github.com/whosonfirst/go-cache
 # github.com/whosonfirst/go-ioutil v1.0.2
 ## explicit; go 1.16
 github.com/whosonfirst/go-ioutil
-# github.com/whosonfirst/go-reader v1.1.0
+# github.com/whosonfirst/go-reader-cachereader/v2 v2.0.0
 ## explicit; go 1.22
-github.com/whosonfirst/go-reader
-# github.com/whosonfirst/go-reader-cachereader v1.1.1
+github.com/whosonfirst/go-reader-cachereader/v2
+# github.com/whosonfirst/go-reader/v2 v2.0.0
 ## explicit; go 1.22
-github.com/whosonfirst/go-reader-cachereader
+github.com/whosonfirst/go-reader/v2
 # github.com/whosonfirst/go-sanitize v0.1.0
 ## explicit; go 1.12
 github.com/whosonfirst/go-sanitize
-# github.com/whosonfirst/go-whosonfirst-crawl v0.2.2
-## explicit; go 1.18
-github.com/whosonfirst/go-whosonfirst-crawl
-# github.com/whosonfirst/go-whosonfirst-feature v0.0.28
+# github.com/whosonfirst/go-whosonfirst-feature v0.0.29
 ## explicit; go 1.22
 github.com/whosonfirst/go-whosonfirst-feature
 github.com/whosonfirst/go-whosonfirst-feature/alt
@@ -212,26 +211,25 @@ github.com/whosonfirst/go-whosonfirst-flags/date
 github.com/whosonfirst/go-whosonfirst-flags/existential
 github.com/whosonfirst/go-whosonfirst-flags/geometry
 github.com/whosonfirst/go-whosonfirst-flags/placetypes
-# github.com/whosonfirst/go-whosonfirst-format v0.4.1
-## explicit; go 1.16
-github.com/whosonfirst/go-whosonfirst-format
-# github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.5.0
+# github.com/whosonfirst/go-whosonfirst-format v1.0.1
 ## explicit; go 1.22
-github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter
-github.com/whosonfirst/go-whosonfirst-iterate/v2/filters
-github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator
-# github.com/whosonfirst/go-whosonfirst-placetypes v0.7.3
-## explicit; go 1.18
+github.com/whosonfirst/go-whosonfirst-format
+# github.com/whosonfirst/go-whosonfirst-iterate/v3 v3.2.0
+## explicit; go 1.24
+github.com/whosonfirst/go-whosonfirst-iterate/v3
+github.com/whosonfirst/go-whosonfirst-iterate/v3/filters
+# github.com/whosonfirst/go-whosonfirst-placetypes v0.8.0
+## explicit; go 1.23
 github.com/whosonfirst/go-whosonfirst-placetypes
-# github.com/whosonfirst/go-whosonfirst-reader v1.0.2
-## explicit; go 1.18
-github.com/whosonfirst/go-whosonfirst-reader
+# github.com/whosonfirst/go-whosonfirst-reader/v2 v2.0.0
+## explicit; go 1.22
+github.com/whosonfirst/go-whosonfirst-reader/v2
 # github.com/whosonfirst/go-whosonfirst-sources v0.1.0
 ## explicit; go 1.12
 github.com/whosonfirst/go-whosonfirst-sources
 github.com/whosonfirst/go-whosonfirst-sources/sources
-# github.com/whosonfirst/go-whosonfirst-spatial v0.16.2
-## explicit; go 1.23
+# github.com/whosonfirst/go-whosonfirst-spatial v0.18.1
+## explicit; go 1.24
 github.com/whosonfirst/go-whosonfirst-spatial
 github.com/whosonfirst/go-whosonfirst-spatial/application
 github.com/whosonfirst/go-whosonfirst-spatial/database
@@ -239,7 +237,7 @@ github.com/whosonfirst/go-whosonfirst-spatial/filter
 github.com/whosonfirst/go-whosonfirst-spatial/geo
 github.com/whosonfirst/go-whosonfirst-spatial/maptile
 github.com/whosonfirst/go-whosonfirst-spatial/query
-# github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.2.0
+# github.com/whosonfirst/go-whosonfirst-spatial-duckdb v0.3.2
 ## explicit; go 1.24.0
 github.com/whosonfirst/go-whosonfirst-spatial-duckdb
 # github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.7
@@ -252,9 +250,6 @@ github.com/whosonfirst/go-whosonfirst-uri
 # github.com/whosonfirst/go-writer/v3 v3.1.1
 ## explicit; go 1.22.1
 github.com/whosonfirst/go-writer/v3
-# github.com/whosonfirst/walk v0.0.2
-## explicit; go 1.18
-github.com/whosonfirst/walk
 # github.com/zeebo/xxh3 v1.0.2
 ## explicit; go 1.17
 github.com/zeebo/xxh3
@@ -267,23 +262,23 @@ go.mongodb.org/mongo-driver/bson/bsonrw
 go.mongodb.org/mongo-driver/bson/bsontype
 go.mongodb.org/mongo-driver/bson/primitive
 go.mongodb.org/mongo-driver/x/bsonx/bsoncore
-# golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c
-## explicit; go 1.22.0
+# golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
+## explicit; go 1.23.0
 golang.org/x/exp/constraints
-# golang.org/x/mod v0.22.0
-## explicit; go 1.22.0
+# golang.org/x/mod v0.25.0
+## explicit; go 1.23.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/module
 golang.org/x/mod/semver
-# golang.org/x/sync v0.10.0
-## explicit; go 1.18
+# golang.org/x/sync v0.15.0
+## explicit; go 1.23.0
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.29.0
-## explicit; go 1.18
+# golang.org/x/sys v0.35.0
+## explicit; go 1.23.0
 golang.org/x/sys/cpu
 golang.org/x/sys/unix
-# golang.org/x/tools v0.29.0
-## explicit; go 1.22.0
+# golang.org/x/tools v0.34.0
+## explicit; go 1.23.0
 golang.org/x/tools/cmd/goimports
 golang.org/x/tools/cmd/stringer
 golang.org/x/tools/go/ast/astutil

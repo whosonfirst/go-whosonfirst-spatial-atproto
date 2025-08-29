@@ -1,4 +1,4 @@
-DUCKDB_VERSION=v1.2.2
+DUCKDB_VERSION=v1.3.2
 
 fetch.static.libs:
 	cd ${DIRECTORY} && \
@@ -6,8 +6,7 @@ fetch.static.libs:
 	rm *.a && \
 	rm -f duckdb.h && \
 	unzip ${FILENAME}.zip && \
-	rm -f ${FILENAME}.zip && \
-	ls
+	rm -f ${FILENAME}.zip
 
 update.binding:
 	rm -f ${DIRECTORY}/bindings.go && \
