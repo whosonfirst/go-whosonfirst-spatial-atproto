@@ -8,7 +8,7 @@ import (
 	gohttp "net/http"
 
 	"github.com/aaronland/go-http/v3/server"
-	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/api"
+	wof "github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/xrpc/org/whosonfirst"
 	app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 )
 
@@ -60,70 +60,70 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	// point-in-polygon handler
 
-	api_pip_opts := &api.PointInPolygonHandlerOptions{}
+	wof_pip_opts := &wof.PointInPolygonHandlerOptions{}
 
-	api_pip_handler, err := api.PointInPolygonHandler(spatial_app, api_pip_opts)
+	wof_pip_handler, err := wof.PointInPolygonHandler(spatial_app, wof_pip_opts)
 
 	if err != nil {
 		return fmt.Errorf("failed to create point-in-polygon handler because %s", err)
 	}
 
-	logger.Debug("Enable point in polygon handler", "endpoint", api.XRPC_POINT_IN_POLYGON)
-	mux.Handle(api.XRPC_POINT_IN_POLYGON, api_pip_handler)
+	logger.Debug("Enable point in polygon handler", "endpoint", wof.XRPC_POINT_IN_POLYGON)
+	mux.Handle(wof.XRPC_POINT_IN_POLYGON, wof_pip_handler)
 
 	// point-in-polygon from tile handler
 
-	api_piptile_opts := &api.PointInPolygonTileHandlerOptions{}
+	wof_piptile_opts := &wof.PointInPolygonTileHandlerOptions{}
 
-	api_piptile_handler, err := api.PointInPolygonTileHandler(spatial_app, api_piptile_opts)
+	wof_piptile_handler, err := wof.PointInPolygonTileHandler(spatial_app, wof_piptile_opts)
 
 	if err != nil {
 		return fmt.Errorf("failed to create point-in-polygon from tile handler because %s", err)
 	}
 
-	logger.Debug("Enable point in polygon from tile handler", "endpoint", api.XRPC_POINT_IN_POLYGON_TILE)
-	mux.Handle(api.XRPC_POINT_IN_POLYGON_TILE, api_piptile_handler)
+	logger.Debug("Enable point in polygon from tile handler", "endpoint", wof.XRPC_POINT_IN_POLYGON_TILE)
+	mux.Handle(wof.XRPC_POINT_IN_POLYGON_TILE, wof_piptile_handler)
 
 	// intersects
 
-	api_intersects_opts := &api.IntersectsHandlerOptions{}
+	wof_intersects_opts := &wof.IntersectsHandlerOptions{}
 
-	api_intersects_handler, err := api.IntersectsHandler(spatial_app, api_intersects_opts)
+	wof_intersects_handler, err := wof.IntersectsHandler(spatial_app, wof_intersects_opts)
 
 	if err != nil {
 		return fmt.Errorf("failed to create point-in-polygon handler because %s", err)
 	}
 
-	logger.Debug("Enable point in polygon handler", "endpoint", api.XRPC_INTERSECTS)
-	mux.Handle(api.XRPC_INTERSECTS, api_intersects_handler)
+	logger.Debug("Enable point in polygon handler", "endpoint", wof.XRPC_INTERSECTS)
+	mux.Handle(wof.XRPC_INTERSECTS, wof_intersects_handler)
 
 	// record handler
 
-	api_record_opts := &api.GetRecordHandlerOptions{}
+	wof_record_opts := &wof.GetRecordHandlerOptions{}
 
-	api_record_handler, err := api.GetRecordHandler(spatial_app, api_record_opts)
+	wof_record_handler, err := wof.GetRecordHandler(spatial_app, wof_record_opts)
 
 	if err != nil {
 		return fmt.Errorf("failed to create get record handler because %s", err)
 	}
 
-	logger.Debug("Enable get record handler", "endpoint", api.XRPC_RECORD)
-	mux.Handle(api.XRPC_RECORD, api_record_handler)
+	logger.Debug("Enable get record handler", "endpoint", wof.XRPC_RECORD)
+	mux.Handle(wof.XRPC_RECORD, wof_record_handler)
 
 	// Geocode handler
 
-	api_geocode_opts := &api.GeocodeHandlerOptions{
+	wof_geocode_opts := &wof.GeocodeHandlerOptions{
 		PlaceholderEndpoint: opts.PlaceholderEndpoint,
 	}
 
-	api_geocode_handler, err := api.GeocodeHandler(api_geocode_opts)
+	wof_geocode_handler, err := wof.GeocodeHandler(wof_geocode_opts)
 
 	if err != nil {
 		return fmt.Errorf("failed to create get geocode handler because %s", err)
 	}
 
-	logger.Debug("Enable geocode handler", "endpoint", api.XRPC_GEOCODE)
-	mux.Handle(api.XRPC_GEOCODE, api_geocode_handler)
+	logger.Debug("Enable geocode handler", "endpoint", wof.XRPC_GEOCODE)
+	mux.Handle(wof.XRPC_GEOCODE, wof_geocode_handler)
 
 	// Start server
 

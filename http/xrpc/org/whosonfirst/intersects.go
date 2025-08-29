@@ -1,4 +1,4 @@
-package api
+package whosonfirst
 
 import (
 	"encoding/json"
@@ -8,6 +8,7 @@ import (
 	"github.com/aaronland/go-http/v3/sanitize"
 	"github.com/paulmach/orb/encoding/wkt"
 	"github.com/paulmach/orb/geojson"
+	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/xrpc"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
 )
@@ -26,7 +27,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to construct spatial fuction (intersects://)", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -36,7 +37,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to derive geometry", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -46,7 +47,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to unmarshal geometry", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -64,7 +65,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 
 		if err != nil {
 			logger.Error("Failed to execute intersects query", "error", err)
-			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpc.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -74,7 +75,7 @@ func IntersectsHandler(app *spatial_app.SpatialApplication, opts *IntersectsHand
 		err = enc.Encode(intersects_rsp)
 
 		if err != nil {
-			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
+			xrpc.Error(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

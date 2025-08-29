@@ -1,4 +1,4 @@
-package api
+package whosonfirst
 
 import (
 	// "encoding/json"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/aaronland/go-http/v3/sanitize"
 	"github.com/whosonfirst/go-whosonfirst-reader/v2"
+	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/xrpc"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 )
 
@@ -23,7 +24,7 @@ func GetRecordHandler(app *spatial_app.SpatialApplication, opts *GetRecordHandle
 
 		if err != nil {
 			logger.Error("Failed to derive record ID", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -31,7 +32,7 @@ func GetRecordHandler(app *spatial_app.SpatialApplication, opts *GetRecordHandle
 
 		if err != nil {
 			logger.Error("Failed to load record", "id", id, "error", err)
-			xrpcError(rsp, "Not found", http.StatusNotFound)
+			xrpc.Error(rsp, "Not found", http.StatusNotFound)
 			return
 		}
 

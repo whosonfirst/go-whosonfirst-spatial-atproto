@@ -1,17 +1,20 @@
-package api
+package xrpc
 
 import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
 	"strconv"
-
-	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/xrpc"
 )
 
-func xrpcError(rsp http.ResponseWriter, message string, code int) {
+type xrpcError struct {
+	Error   string `json:"error"`
+	Message string `json:"message"`
+}
 
-	xrpc_err := xrpc.Error{
+func Error(rsp http.ResponseWriter, message string, code int) {
+
+	xrpc_err := xrpcError{
 		Error:   strconv.Itoa(code),
 		Message: message,
 	}

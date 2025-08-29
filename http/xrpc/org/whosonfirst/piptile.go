@@ -1,4 +1,4 @@
-package api
+package whosonfirst
 
 import (
 	"encoding/json"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/aaronland/go-http/v3/sanitize"
 	orb_maptile "github.com/paulmach/orb/maptile"
+	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/xrpc"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 	"github.com/whosonfirst/go-whosonfirst-spatial/maptile"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
@@ -26,7 +27,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to derive z", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -34,7 +35,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to derive x", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -42,7 +43,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to derive y", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -56,7 +57,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 
 		if err != nil {
 			logger.Error("Failed to execute point in polygon query", "error", err)
-			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpc.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -68,7 +69,7 @@ func PointInPolygonTileHandler(app *spatial_app.SpatialApplication, opts *PointI
 		err = enc.Encode(fc)
 
 		if err != nil {
-			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
+			xrpc.Error(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

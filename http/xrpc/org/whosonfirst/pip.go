@@ -1,4 +1,4 @@
-package api
+package whosonfirst
 
 import (
 	"encoding/json"
@@ -8,6 +8,7 @@ import (
 	"github.com/aaronland/go-http/v3/sanitize"
 	"github.com/paulmach/orb"
 	"github.com/paulmach/orb/geojson"
+	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/xrpc"
 	spatial_app "github.com/whosonfirst/go-whosonfirst-spatial/application"
 	"github.com/whosonfirst/go-whosonfirst-spatial/query"
 )
@@ -26,7 +27,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to construct spatial fuction (pip://)", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -34,7 +35,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to derive latitude", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -42,7 +43,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to derive longitude", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -64,7 +65,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 
 		if err != nil {
 			logger.Error("Failed to execute point in polygon query", "error", err)
-			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpc.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -76,7 +77,7 @@ func PointInPolygonHandler(app *spatial_app.SpatialApplication, opts *PointInPol
 		err = enc.Encode(pip_rsp)
 
 		if err != nil {
-			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
+			xrpc.Error(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

@@ -1,4 +1,4 @@
-package api
+package whosonfirst
 
 const P_QUERY string = "q"
 

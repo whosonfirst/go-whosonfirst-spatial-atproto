@@ -1,4 +1,4 @@
-package api
+package whosonfirst
 
 import (
 	"io"
@@ -7,6 +7,7 @@ import (
 	"net/url"
 
 	"github.com/aaronland/go-http/v3/sanitize"
+	"github.com/whosonfirst/go-whosonfirst-spatial-atproto/http/xrpc"
 )
 
 type GeocodeHandlerOptions struct {
@@ -23,7 +24,7 @@ func GeocodeHandler(opts *GeocodeHandlerOptions) (http.Handler, error) {
 
 		if err != nil {
 			logger.Error("Failed to derive query", "error", err)
-			xrpcError(rsp, "Bad request", http.StatusBadRequest)
+			xrpc.Error(rsp, "Bad request", http.StatusBadRequest)
 			return
 		}
 
@@ -31,7 +32,7 @@ func GeocodeHandler(opts *GeocodeHandlerOptions) (http.Handler, error) {
 
 		if err != nil {
 			logger.Error("Failed to parse placeholder endpoint", "error", err)
-			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpc.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -46,7 +47,7 @@ func GeocodeHandler(opts *GeocodeHandlerOptions) (http.Handler, error) {
 
 		if err != nil {
 			logger.Error("Failed to query placeholder endpoint", "error", err)
-			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpc.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -54,7 +55,7 @@ func GeocodeHandler(opts *GeocodeHandlerOptions) (http.Handler, error) {
 
 		if ph_rsp.StatusCode != http.StatusOK {
 			logger.Error("Placeholder did not return ok", "code", ph_rsp.StatusCode)
-			xrpcError(rsp, "Internal server error", http.StatusInternalServerError)
+			xrpc.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
@@ -65,7 +66,7 @@ func GeocodeHandler(opts *GeocodeHandlerOptions) (http.Handler, error) {
 		_, err = io.Copy(rsp, ph_rsp.Body)
 
 		if err != nil {
-			xrpcError(rsp, err.Error(), http.StatusInternalServerError)
+			xrpc.Error(rsp, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
