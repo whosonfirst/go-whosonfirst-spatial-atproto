@@ -86,7 +86,7 @@ _Note: The (Geocode.earth) Placeholder database has not been updated since 2021.
 * Intersects (with geometry) spatial queries.
 * Point-in-polygon from ZXY map tile spatial queries.
 * Basic "get record" lookups.
-* Coase geocoding for administrative records (no venues by default). Note this requires running the [Placeholder server](https://github.com/pelias/placeholder) being the scenes.
+* "Coarse" eocoding. This requires running the [Placeholder server](https://github.com/pelias/placeholder) being the scenes. Note that the default Placeholder datafile only supports administrative records. This package is bundled with an alternate datafile for the San Francisco Bay Area with support for administrative records _and_ venues for demonstration purposes.
 
 ## Things this package doesn't do yet
 
