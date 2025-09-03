@@ -84,7 +84,7 @@ _Note: The (Geocode.earth) Placeholder database has not been updated since 2021.
 
 * Point-in-polygon spatial queries.
 * Intersects (with geometry) spatial queries.
-* Point-in-polygon from ZXY map tile spatial queries (incomplete).
+* Point-in-polygon from ZXY map tile spatial queries.
 * Basic "get record" lookups.
 * Coase geocoding for administrative records (no venues by default). Note this requires running the [Placeholder server](https://github.com/pelias/placeholder) being the scenes.
 
