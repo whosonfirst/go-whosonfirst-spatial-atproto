@@ -59,7 +59,7 @@ Who's On First addresses this issue by endeavouring to map all properties and th
 
 ```
 https://github.com/whosonfirst/whosonfirst-properties/blob/main/properties/wof/placetype.json
-``
+```
 
 And `wof` maps to:
 
